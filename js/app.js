@@ -68,6 +68,7 @@ let state = {
   currentThemeId:null,
   vocabView:"cards",    // "cards" | "list"
   flashIndex:0,
+  skipLearned:true,     // 字卡是否跳過已學會的字（仍可切換成複習全部）
 };
 
 const app = document.getElementById("app");
@@ -85,9 +86,9 @@ function renderHome(){
     </nav>
     ${state.navMode==='level' ? `
       <div class="level-tabs" id="levelTabs"></div>
-    ` : `<div class="section-label">主題列表</div>`}
-    <div class="theme-grid" id="themeGrid"></div>
-    <div class="footnote">內容持續擴充中・A2-B2 主題之後加入</div>
+    ` : ``}
+    <div id="themeArea"></div>
+    <div class="footnote">內容持續擴充中・A2–B2 逐步加入</div>
   `;
   app.innerHTML = html;
 
@@ -104,9 +105,9 @@ function renderHome(){
     });
   }
 
-  const grid = document.getElementById("themeGrid");
-  const list = state.navMode==='level' ? THEMES.filter(t=>t.level===state.selectedLevel) : THEMES;
-  list.forEach(t=>{
+  const area = document.getElementById("themeArea");
+
+  function makeCard(t){
     const has = t.data.length>0;
     const learned = has ? t.data.filter(e=>known.has(e.id)).length : 0;
     const card = el(`
@@ -115,9 +116,27 @@ function renderHome(){
         <div class="count">${t.level} ・ ${has? (learned+'/'+t.data.length+' 已學會') : '尚未加入'}</div>
       </div>
     `);
-    if(has){ card.onclick=()=>{state.currentThemeId=t.id; state.flashIndex=0; renderTheme();}; }
-    grid.appendChild(card);
-  });
+    if(has){ card.onclick=()=>{state.currentThemeId=t.id; state.flashIndex=0; state.skipLearned=true; renderTheme();}; }
+    return card;
+  }
+
+  if(state.navMode==='level'){
+    // 等級模式：平鋪該等級的主題
+    const grid = el(`<div class="theme-grid"></div>`);
+    THEMES.filter(t=>t.level===state.selectedLevel).forEach(t=> grid.appendChild(makeCard(t)));
+    area.appendChild(grid);
+  } else {
+    // 主題模式：依等級分組，每組一個小標題
+    LEVELS.forEach(lv=>{
+      const group = THEMES.filter(t=>t.level===lv);
+      if(group.length===0) return;
+      const total = group.reduce((s,t)=>s+t.data.length,0);
+      area.appendChild(el(`<div class="level-group-label"><span class="lv-tag">${lv}</span><span class="lv-count">${group.length} 個主題・${total} 字</span></div>`));
+      const grid = el(`<div class="theme-grid"></div>`);
+      group.forEach(t=> grid.appendChild(makeCard(t)));
+      area.appendChild(grid);
+    });
+  }
 }
 
 function getCurrentTheme(){ return THEMES.find(t=>t.id===state.currentThemeId); }
@@ -159,9 +178,42 @@ function renderTheme(){
 /* ---- 卡片模式 ---- */
 function renderFlashcards(pool){
   const area = document.getElementById("vocabArea");
-  const i = Math.max(0, Math.min(state.flashIndex, pool.length-1));
-  const e = pool[i];
+  const learnedCount = pool.filter(e=>known.has(e.id)).length;
+  // 牌組：跳過模式下只留未學會的字；複習全部則用整個 pool
+  const deck = state.skipLearned ? pool.filter(e=>!known.has(e.id)) : pool;
+
+  // 切換按鈕（跳過已學會 / 複習全部）
+  const modeToggle = `
+    <div class="flash-mode-toggle">
+      <button id="skipModeBtn" class="${state.skipLearned?'active':''}">跳過已學會</button>
+      <button id="allModeBtn" class="${state.skipLearned?'':'active'}">複習全部</button>
+    </div>`;
+
+  // 跳過模式下整個主題都學會了 → 顯示恭喜＋切換複習全部
+  if(deck.length===0){
+    const done = el(`
+      <div class="flashcard-wrap">
+        ${modeToggle}
+        <div class="flashcard deck-empty">
+          <div class="empty-emoji">🎉</div>
+          <div class="empty-title zh">這個主題的字都學會了！</div>
+          <div class="empty-sub zh">共 ${pool.length} 個字全部標記完成</div>
+          <button class="empty-review-btn zh" id="reviewAllBtn">複習全部 ${pool.length} 個字</button>
+        </div>
+      </div>
+    `);
+    area.innerHTML=""; area.appendChild(done);
+    document.getElementById("skipModeBtn").onclick=()=>{state.skipLearned=true; renderTheme();};
+    document.getElementById("allModeBtn").onclick=()=>{state.skipLearned=false; state.flashIndex=0; renderTheme();};
+    document.getElementById("reviewAllBtn").onclick=()=>{state.skipLearned=false; state.flashIndex=0; renderTheme();};
+    return;
+  }
+
+  const i = Math.max(0, Math.min(state.flashIndex, deck.length-1));
+  state.flashIndex = i;
+  const e = deck[i];
   const wrap = el(`<div class="flashcard-wrap"></div>`);
+  wrap.appendChild(el(modeToggle));
   let extraHtml = "";
   if(e.fem || e.conj){
     extraHtml += `<div class="extra zh" style="display:none">`;
@@ -198,7 +250,7 @@ function renderFlashcards(pool){
   const nav = el(`
     <div class="flash-nav">
       <button id="prevBtn">← 上一個</button>
-      <span class="flash-counter">${i+1} / ${pool.length}</span>
+      <span class="flash-counter">${i+1} / ${deck.length}${state.skipLearned?`<span class="counter-sub"> ・已學會 ${learnedCount}</span>`:''}</span>
       <button class="star-btn ${starred.has(e.id)?'on':''}" id="starBtn">★</button>
       <button id="knownBtn">${known.has(e.id)?'✓ 已學會':'標記學會'}</button>
       <button id="nextBtn">下一個 →</button>
@@ -206,10 +258,20 @@ function renderFlashcards(pool){
   `);
   wrap.appendChild(nav);
   area.innerHTML=""; area.appendChild(wrap);
-  document.getElementById("prevBtn").onclick=()=>{state.flashIndex=(i-1+pool.length)%pool.length; renderTheme();};
-  document.getElementById("nextBtn").onclick=()=>{state.flashIndex=(i+1)%pool.length; renderTheme();};
+  document.getElementById("skipModeBtn").onclick=()=>{state.skipLearned=true; state.flashIndex=0; renderTheme();};
+  document.getElementById("allModeBtn").onclick=()=>{state.skipLearned=false; state.flashIndex=0; renderTheme();};
+  document.getElementById("prevBtn").onclick=()=>{state.flashIndex=(i-1+deck.length)%deck.length; renderTheme();};
+  document.getElementById("nextBtn").onclick=()=>{state.flashIndex=(i+1)%deck.length; renderTheme();};
   document.getElementById("starBtn").onclick=()=>{toggleStar(e.id); renderTheme();};
-  document.getElementById("knownBtn").onclick=()=>{toggleKnown(e.id); renderTheme();};
+  document.getElementById("knownBtn").onclick=()=>{
+    const wasLearned = known.has(e.id);
+    toggleKnown(e.id);
+    // 跳過模式下剛標記為學會：該字會從牌組消失，停在同一個 index 即顯示下一張
+    if(state.skipLearned && !wasLearned){
+      // index 不變，但因牌組少一張，clamp 會自動指向下一張或往前
+    }
+    renderTheme();
+  };
 }
 
 /* ---- 列表模式 ---- */
