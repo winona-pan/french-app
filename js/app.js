@@ -77,8 +77,8 @@ function renderHome(){
   const html = `
     <header class="top">
       <div class="eyebrow">Carnet de Français</div>
-      <h1>我的法文秘密花園</h1>
-      <div class="sub">目標是申請到法國碩士！</div>
+      <h1>我的法文學習筆記</h1>
+      <div class="sub">主題式背單字・A1 為主，逐步擴充到 B2</div>
     </header>
     <nav class="mode-toggle">
       <button id="modeThemeBtn" class="${state.navMode==='theme'?'active':''}">依主題瀏覽</button>
@@ -88,7 +88,7 @@ function renderHome(){
       <div class="level-tabs" id="levelTabs"></div>
     ` : ``}
     <div id="themeArea"></div>
-    <div class="footnote">內容持續擴充中</div>
+    <div class="footnote">內容持續擴充中・A2–B2 逐步加入</div>
   `;
   app.innerHTML = html;
 
