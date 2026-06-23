@@ -36,6 +36,15 @@ function pickDistractors(pool, correctId, field, n){
   const others = pool.filter(e=>e.id!==correctId);
   return shuffle(others).slice(0,n).map(e=>e[field]);
 }
+/* 名詞顯示時前面帶定冠詞（l' 不留空格，其餘留空格）*/
+function withArt(e){
+  if(!e || !e.art) return e ? e.word : "";
+  return e.art.endsWith("'") ? e.art + e.word : e.art + " " + e.word;
+}
+function pickDistractorEntries(pool, correctId, n){
+  const others = pool.filter(e=>e.id!==correctId);
+  return shuffle(others).slice(0,n);
+}
 /* 在原句中找出對應「正規化目標字串」的原始字元範圍，回傳 [start,end) 或 null。
    逐字元正規化再比對，避免重音符號造成位移問題（à/ô/î 等）。 */
 function locateSpan(original, targetNorm){
@@ -69,6 +78,7 @@ let state = {
   vocabView:"cards",    // "cards" | "list"
   flashIndex:0,
   skipLearned:true,     // 字卡是否跳過已學會的字（仍可切換成複習全部）
+  searchQuery:"",       // 首頁搜尋字串
 };
 
 const app = document.getElementById("app");
@@ -84,16 +94,26 @@ function renderHome(){
       <button id="modeThemeBtn" class="${state.navMode==='theme'?'active':''}">依主題瀏覽</button>
       <button id="modeLevelBtn" class="${state.navMode==='level'?'active':''}">依等級瀏覽</button>
     </nav>
+    <div class="search-wrap">
+      <input id="searchInput" type="search" autocomplete="off" placeholder="搜尋單字（中文或法文）" value="${(state.searchQuery||'').replace(/"/g,'&quot;')}">
+      <span class="search-icon">🔍</span>
+    </div>
+    <div id="searchResults"></div>
+    <div id="browseArea">
     ${state.navMode==='level' ? `
       <div class="level-tabs" id="levelTabs"></div>
     ` : ``}
     <div id="themeArea"></div>
     <div class="footnote">內容持續擴充中・A2–B2 逐步加入</div>
+    </div>
   `;
   app.innerHTML = html;
 
   document.getElementById("modeThemeBtn").onclick=()=>{state.navMode="theme"; renderHome();};
   document.getElementById("modeLevelBtn").onclick=()=>{state.navMode="level"; renderHome();};
+
+  const searchInput = document.getElementById("searchInput");
+  searchInput.oninput = (ev)=>{ state.searchQuery = ev.target.value; renderSearchResults(); };
 
   if(state.navMode==='level'){
     const tabsEl = document.getElementById("levelTabs");
@@ -137,6 +157,57 @@ function renderHome(){
       area.appendChild(grid);
     });
   }
+
+  renderSearchResults(); // 還原先前的搜尋狀態（若有）
+}
+
+/* 跨所有主題搜尋單字（中文比對原字、法文去重音比對） */
+function searchEntries(q){
+  const nq = norm(q);
+  const rawq = (q||"").trim();
+  if(!nq && !rawq) return [];
+  const res=[];
+  for(const t of THEMES){
+    for(const e of t.data){
+      const hit = (nq && (norm(e.word).includes(nq) || norm(e.match||'').includes(nq) || norm(e.example_fr||'').includes(nq)))
+               || (rawq && e.zh && e.zh.includes(rawq))
+               || (rawq && e.example_zh && e.example_zh.includes(rawq));
+      if(hit){ res.push({e, theme:t}); if(res.length>=80) return res; }
+    }
+  }
+  return res;
+}
+
+function renderSearchResults(){
+  const box = document.getElementById("searchResults");
+  const browse = document.getElementById("browseArea");
+  if(!box) return;
+  const q = state.searchQuery||"";
+  if(!q.trim()){ box.innerHTML=""; if(browse) browse.style.display=""; return; }
+  if(browse) browse.style.display="none";
+  const results = searchEntries(q);
+  box.innerHTML = "";
+  if(results.length===0){
+    box.appendChild(el(`<div class="search-empty zh">找不到符合「${q.replace(/</g,'&lt;')}」的單字</div>`));
+    return;
+  }
+  box.appendChild(el(`<div class="search-count zh">${results.length} 個結果${results.length>=80?'（僅顯示前 80 筆）':''}</div>`));
+  results.forEach(({e,theme})=>{
+    const row = el(`
+      <div class="search-row">
+        <div class="sr-line">
+          <span class="sr-fr fr-display">${withArt(e)}</span>
+          <span class="sr-pos">${e.pos}</span>
+          ${known.has(e.id)?'<span class="sr-known">✓</span>':''}
+        </div>
+        <div class="sr-zh zh">${e.zh}</div>
+        ${e.example_fr?`<div class="sr-ex fr-display">${e.example_fr}</div>`:''}
+        <div class="sr-theme zh">${theme.level}・${theme.name}</div>
+      </div>
+    `);
+    row.onclick=()=>{ state.currentThemeId=theme.id; state.flashIndex=0; state.skipLearned=false; renderTheme(); };
+    box.appendChild(row);
+  });
 }
 
 function getCurrentTheme(){ return THEMES.find(t=>t.id===state.currentThemeId); }
@@ -187,8 +258,10 @@ function renderDialogues(themeId){
   sets.forEach((d, di)=>{
     html += `<div class="dialogue-card">
       <div class="dialogue-title zh">${d.title}</div>`;
+    const order = [];
     d.lines.forEach(ln=>{
-      const side = (ln.sp==="A" || ln.sp==="服務生") ? "left" : "right";
+      if(!order.includes(ln.sp)) order.push(ln.sp);
+      const side = order.indexOf(ln.sp)===0 ? "left" : "right";
       html += `<div class="dia-line ${side}">
         <div class="dia-speaker zh">${ln.sp}</div>
         <div class="dia-bubble">
@@ -257,7 +330,7 @@ function renderFlashcards(pool){
   const card = el(`
     <div class="flashcard">
       <div class="pos">${e.pos}</div>
-      <div class="word fr-display">${e.word}</div>
+      <div class="word fr-display">${withArt(e)}</div>
       <div class="zh-meaning zh" style="display:none">${e.zh}</div>
       <div class="example zh" style="display:none">${e.example_fr}<br>${e.example_zh}</div>
       ${extraHtml}
@@ -275,12 +348,14 @@ function renderFlashcards(pool){
   };
   wrap.appendChild(card);
   const nav = el(`
-    <div class="flash-nav">
-      <button id="prevBtn">← 上一個</button>
-      <span class="flash-counter">${i+1} / ${deck.length}${state.skipLearned?`<span class="counter-sub"> ・已學會 ${learnedCount}</span>`:''}</span>
-      <button class="star-btn ${starred.has(e.id)?'on':''}" id="starBtn">★</button>
-      <button id="knownBtn">${known.has(e.id)?'✓ 已學會':'標記學會'}</button>
-      <button id="nextBtn">下一個 →</button>
+    <div class="flash-nav-wrap">
+      <div class="flash-meta">${i+1} / ${deck.length}${state.skipLearned?`<span class="counter-sub"> ・已學會 ${learnedCount}</span>`:''}</div>
+      <div class="flash-nav">
+        <button id="prevBtn" class="nav-step">← 上一個</button>
+        <button class="star-btn ${starred.has(e.id)?'on':''}" id="starBtn">★</button>
+        <button id="knownBtn" class="nav-known ${known.has(e.id)?'is-known':''}">${known.has(e.id)?'✓ 已學會':'標記學會'}</button>
+        <button id="nextBtn" class="nav-step">下一個 →</button>
+      </div>
     </div>
   `);
   wrap.appendChild(nav);
@@ -312,7 +387,7 @@ function renderVocabList(pool){
       <div class="vocab-row">
         <div class="known-box ${known.has(e.id)?'checked':''}">${known.has(e.id)?'✓':''}</div>
         <div class="word-zh">
-          <div class="w fr-display">${e.word}${conjHtml}</div>
+          <div class="w fr-display">${withArt(e)}${conjHtml}</div>
           <div class="z zh">${e.zh}${femHtml}</div>
         </div>
         <div class="star ${starred.has(e.id)?'on':''}">★</div>
@@ -370,14 +445,20 @@ function renderMC(e){
       <button id="dirZh2Fr" class="${quiz.direction==='zh2fr'?'active':''}">看中文選法文</button>
     </div>`;
   const isFr2Zh = quiz.direction==="fr2zh";
-  const correct = isFr2Zh ? e.zh : e.word;
-  const distractorField = isFr2Zh ? "zh" : "word";
-  const options = shuffle([correct, ...pickDistractors(quiz.pool, e.id, distractorField, 3)]);
+  let correct, options;
+  if(isFr2Zh){
+    correct = e.zh;
+    options = shuffle([correct, ...pickDistractors(quiz.pool, e.id, "zh", 3)]);
+  } else {
+    correct = withArt(e);
+    const distractors = pickDistractorEntries(quiz.pool, e.id, 3).map(withArt);
+    options = shuffle([correct, ...distractors]);
+  }
 
   area.innerHTML = `
     <div class="quiz-panel">
       ${quizHeader(dirToggle)}
-      <div class="quiz-prompt ${isFr2Zh?'fr-display':'zh'}">${isFr2Zh? e.word : e.zh}</div>
+      <div class="quiz-prompt ${isFr2Zh?'fr-display':'zh'}">${isFr2Zh? withArt(e) : e.zh}</div>
       <div class="quiz-sub zh">${isFr2Zh? '請選出正確的中文意思' : '請選出正確的法文'}</div>
       <div class="quiz-options" id="optsArea"></div>
       <div id="fb"></div>
@@ -457,10 +538,10 @@ function renderSpell(e){
       showFeedbackAndNext(true, "完全正確！");
     } else if(close){
       quiz.score++; input.classList.add("correct");
-      showFeedbackAndNext(true, "正確！小提醒重音符號的正確寫法：「" + e.word + "」");
+      showFeedbackAndNext(true, "正確！小提醒重音符號的正確寫法：「" + withArt(e) + "」");
     } else {
       input.classList.add("wrong");
-      showFeedbackAndNext(false, "正確答案：「" + e.word + "」");
+      showFeedbackAndNext(false, "正確答案：「" + withArt(e) + "」");
     }
   }
   document.getElementById("spellSubmit").onclick=submit;
