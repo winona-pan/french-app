@@ -32,5 +32,13 @@ const THEMES = [
   {id:"city_a2", level:"A2", name:"城市與環境", data:(window.VOCAB.city_a2||[])},
   {id:"nature_a2", level:"A2", name:"天氣與自然（進階）", data:(window.VOCAB.nature_a2||[])},
   {id:"leisure_a2", level:"A2", name:"興趣與休閒（進階）", data:(window.VOCAB.leisure_a2||[])},
+  {id:"relationships_a2", level:"A2", name:"人際關係（進階）", data:(window.VOCAB.relationships_a2||[])},
+  {id:"daily_a2", level:"A2", name:"日常作息與習慣", data:(window.VOCAB.daily_a2||[])},
+  {id:"money_a2", level:"A2", name:"金錢與理財", data:(window.VOCAB.money_a2||[])},
+  {id:"festivals_a2", level:"A2", name:"節慶與活動", data:(window.VOCAB.festivals_a2||[])},
+  {id:"appearance_a2", level:"A2", name:"描述外貌", data:(window.VOCAB.appearance_a2||[])},
+  {id:"sports_a2", level:"A2", name:"運動與健身（進階）", data:(window.VOCAB.sports_a2||[])},
+  {id:"movements_a2", level:"A2", name:"身體動作與姿勢", data:(window.VOCAB.movements_a2||[])},
+  {id:"objects_a2", level:"A2", name:"描述物品與材質", data:(window.VOCAB.objects_a2||[])},
 ];
 const LEVELS = ["A1","A2","B1","B2"];
