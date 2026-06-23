@@ -75,10 +75,11 @@
     color:var(--ink-soft); letter-spacing:.04em;
   }
 
-  .level-group-label{display:flex; align-items:baseline; gap:8px; margin:22px 20px 10px;}
+  .level-group-label{display:flex; align-items:baseline; gap:8px; margin:22px 22px 10px;}
   .level-group-label .lv-tag{font-family:'Fraunces','Noto Sans TC',serif; font-weight:700; font-size:17px; color:var(--blue-deep); background:var(--paper-deep); border-radius:7px; padding:1px 10px;}
   .level-group-label .lv-count{font-size:12px; color:var(--ink-soft);}
-    display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:0 20px;
+  .theme-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:11px; margin:0 22px;
   }
   .theme-card{
     background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
@@ -185,7 +186,20 @@
   .vocab-row .star.on{opacity:1;}
 
   /* practice */
-  .practice-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:0 20px;}
+  .dialogue-card{margin:0 22px 12px; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px 14px; position:relative;}
+  .dialogue-card::before{content:""; position:absolute; left:0; top:12px; bottom:12px; width:3px; background:var(--margin); opacity:.5; border-radius:0 2px 2px 0;}
+  .dialogue-title{font-family:'Fraunces','Noto Sans TC',serif; font-weight:600; font-size:15px; color:var(--blue-deep); margin-bottom:12px;}
+  .dia-line{display:flex; flex-direction:column; margin-bottom:10px; max-width:82%;}
+  .dia-line.left{align-items:flex-start; margin-right:auto;}
+  .dia-line.right{align-items:flex-end; margin-left:auto;}
+  .dia-speaker{font-size:11px; color:var(--ink-soft); margin:0 6px 2px;}
+  .dia-bubble{padding:9px 12px; border-radius:13px; line-height:1.5;}
+  .dia-line.left .dia-bubble{background:var(--paper-deep); border-bottom-left-radius:4px;}
+  .dia-line.right .dia-bubble{background:var(--blue); border-bottom-right-radius:4px;}
+  .dia-line.right .dia-bubble .dia-fr{color:#fff;}
+  .dia-line.right .dia-bubble .dia-zh{color:rgba(255,255,255,0.82);}
+  .dia-fr{font-size:14.5px; color:var(--blue-deep);}
+  .dia-zh{font-size:12.5px; color:var(--ink-soft); margin-top:3px;}
   .practice-tile{
     background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
     padding:14px 8px; text-align:center; cursor:pointer; border:none; font-family:inherit;
