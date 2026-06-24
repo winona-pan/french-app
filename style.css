@@ -282,3 +282,266 @@
   .quiz-result-actions .leave{background:var(--paper-deep); color:var(--ink);}
 
   .footnote{margin:30px 20px 0; font-size:11.5px; color:var(--ink-soft); text-align:center; opacity:.7;}
+
+  /* ============ �潮𨺗�𤏪�Web Speech API嚗�============ */
+  .speak-btn{
+    border:none; background:none; cursor:pointer; color:var(--blue);
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:4px; border-radius:8px; line-height:0; flex-shrink:0;
+    transition:color .15s, background .15s, transform .1s; -webkit-tap-highlight-color:transparent;
+  }
+  .speak-btn:active{transform:scale(.86);}
+  .speak-btn svg{display:block;}
+  /* �剜𦆮銝哨�瘛∪�瘛∪枂��鐤�豢��� */
+  .speak-btn.speaking{color:var(--margin); animation:speakPulse 1s ease-in-out infinite;}
+  @keyframes speakPulse{0%,100%{opacity:1;}50%{opacity:.45;}}
+
+  /* �∠�嚗𡁜鱓摮埈����敶Ｗ之�� */
+  .flashcard .word-row{display:flex; align-items:center; justify-content:center; gap:10px;}
+  .flashcard .speak-btn.on-card{font-size:18px; color:var(--blue); background:var(--paper-deep); width:34px; height:34px; border-radius:50%; padding:0;}
+  .flashcard .speak-btn.on-card:hover{color:var(--blue-deep);}
+  .flashcard .speak-btn.on-card.speaking{background:var(--paper-deep);}
+  /* �∠�嚗帋��亙������ */
+  .flashcard .example .speak-btn.ex-speak{font-size:14px; color:var(--blue); vertical-align:middle; margin-right:3px; padding:2px;}
+  .flashcard .example .ex-fr{font-style:italic; color:var(--blue-deep);}
+
+  /* �𡑒”嚗𡁏��㛖�撠誯� */
+  .vocab-row .speak-btn.row-speak{font-size:17px; color:var(--blue); padding:3px;}
+
+  /* �𨅯�蝯鞉� */
+  .search-row .speak-btn.sr-speak{font-size:15px; color:var(--blue); padding:2px; margin-left:-2px;}
+
+  /* ��店嚗𡁏��交��������� */
+  .dia-fr-row{display:flex; align-items:center; gap:6px;}
+  .dia-fr-row .dia-fr{flex:1; min-width:0;}
+  .dia-fr-row .speak-btn.dia-speak{font-size:14px; color:var(--blue); padding:2px;}
+  .dia-line.right .dia-bubble .speak-btn.dia-speak{color:rgba(255,255,255,0.9);}
+  .dia-line.right .dia-bubble .speak-btn.dia-speak.speaking{color:#fff;}
+
+  /* �⊥�����單�蝷� */
+  .voice-note{margin:0 20px 12px; font-size:11.5px; color:var(--ink-soft); background:var(--paper-deep); border-radius:9px; padding:8px 11px; line-height:1.5;}
+
+  /* ============ ��惜���嚗𡁜鱓摮� / ��� / 撖思� ============ */
+  .main-tabs{display:flex; gap:6px; margin:0 20px 16px; background:var(--paper-deep); padding:4px; border-radius:12px;}
+  .main-tabs button{
+    flex:1; border:none; background:none; font-family:inherit; font-size:14px; font-weight:600;
+    padding:9px 0; border-radius:9px; cursor:pointer; color:var(--ink-soft); transition:background .15s, color .15s;
+  }
+  .main-tabs button.active{background:#fff; color:var(--blue-deep); box-shadow:0 1px 4px rgba(99,124,178,0.14);}
+
+  /* ============ ������ ============ */
+  .grammar-list{margin:0 20px 6px; display:flex; flex-direction:column; gap:8px;}
+  .grammar-card{
+    background:var(--card); border-radius:12px; box-shadow:var(--shadow);
+    padding:13px 15px; cursor:pointer; border-left:3px solid var(--margin);
+    transition:transform .1s, box-shadow .15s;
+  }
+  .grammar-card:active{transform:scale(.99);}
+  .grammar-card:hover{box-shadow:0 3px 14px rgba(99,124,178,0.18);}
+  .grammar-card .g-card-title{font-size:15.5px; font-weight:600; color:var(--blue-deep);}
+  .grammar-card .g-card-sum{font-size:12.5px; color:var(--ink-soft); margin-top:3px; line-height:1.45;}
+
+  /* ���閰單� */
+  .g-detail-head{margin:4px 20px 18px; padding-bottom:14px; border-bottom:1px solid var(--rule);}
+  .g-detail-head .g-lv{display:inline-block; font-family:'Fraunces','Noto Sans TC',serif; font-weight:700; font-size:13px; color:#fff; background:var(--margin); border-radius:6px; padding:1px 9px; margin-bottom:8px;}
+  .g-detail-head h2{margin:0; font-size:21px; color:var(--ink);}
+  .g-detail-head .g-detail-sum{font-size:13px; color:var(--ink-soft); margin-top:5px; line-height:1.5;}
+  .g-blocks{margin:0 20px;}
+  .g-h{font-size:13px; font-weight:700; color:var(--gold); letter-spacing:.03em; margin:18px 0 8px;}
+  .g-h:first-child{margin-top:0;}
+  .g-prose{font-size:14px; color:var(--ink); line-height:1.7; margin:0 0 12px;}
+  .g-note{display:flex; gap:8px; font-size:12.5px; color:var(--blue-deep); background:var(--paper-deep); border-radius:10px; padding:10px 12px; line-height:1.6; margin:4px 0 14px;}
+  .g-note .g-note-ico{flex-shrink:0;}
+
+  /* ���銵冽聢 */
+  .g-table-wrap{overflow-x:auto; margin:0 0 16px; -webkit-overflow-scrolling:touch;}
+  .g-table{width:100%; border-collapse:collapse; background:var(--card); border-radius:10px; overflow:hidden; box-shadow:var(--shadow); font-size:14px;}
+  .g-table thead th{background:var(--blue-deep); color:#fff; font-weight:600; font-size:12.5px; padding:8px 10px; text-align:left; white-space:nowrap;}
+  .g-table tbody td{padding:8px 10px; border-top:1px solid var(--rule); color:var(--ink); vertical-align:top;}
+  .g-table tbody td.fr-display{color:var(--blue-deep); font-size:14.5px;}
+  .g-table tbody tr:nth-child(even){background:rgba(120,150,200,0.05);}
+
+  /* ���靘见蘂嚗�虾�潮𨺗嚗�*/
+  .g-ex{display:flex; flex-direction:column; gap:9px; margin:4px 0 16px;}
+  .g-ex-row{background:var(--card); border-radius:10px; box-shadow:var(--shadow); padding:10px 13px; border-left:3px solid var(--blue);}
+  .g-ex-fr-row{display:flex; align-items:center; gap:6px;}
+  .g-ex-fr-row .g-ex-fr{flex:1; min-width:0; font-size:15px; font-weight:600; color:var(--blue-deep);}
+  .g-ex-fr-row .speak-btn.gx-speak{font-size:15px; color:var(--blue); padding:2px;}
+  .g-ex-zh{font-size:13px; color:var(--ink-soft); margin-top:3px;}
+
+  /* ============ 撖思����嚗�ˊ雿靝葉嚗�============ */
+  .writing-soon{margin:8px 20px; background:var(--card); border-radius:14px; box-shadow:var(--shadow); padding:26px 22px; text-align:center;}
+  .writing-soon .ws-emoji{font-size:38px;}
+  .writing-soon .ws-title{font-size:18px; font-weight:600; color:var(--blue-deep); margin-top:8px;}
+  .writing-soon .ws-list{margin:18px 0 0; text-align:left; display:flex; flex-direction:column; gap:11px;}
+  .writing-soon .ws-item{display:flex; gap:9px; font-size:13.5px; color:var(--ink); line-height:1.55;}
+  .writing-soon .ws-dot{flex-shrink:0; width:7px; height:7px; border-radius:50%; background:var(--margin); margin-top:7px;}
+  .writing-soon .ws-note{margin-top:20px; font-size:12.5px; color:var(--ink-soft); background:var(--paper-deep); border-radius:9px; padding:9px 12px; line-height:1.5;}
+
+  /* ============ 撖思���� ============ */
+  .sub-nav{display:flex; gap:6px; margin:0 20px 14px;}
+  .sub-nav button{flex:1; border:1px solid var(--paper-deep); background:#fff; font-family:inherit; font-size:13px; font-weight:600; padding:8px 0; border-radius:9px; cursor:pointer; color:var(--ink-soft);}
+  .sub-nav button.active{background:var(--margin); color:#fff; border-color:var(--margin);}
+  .w-intro{margin:0 20px 14px; font-size:12px; color:var(--ink-soft); line-height:1.7; background:var(--paper-deep); border-radius:9px; padding:9px 12px;}
+
+  /* 隤𧼮�璅嗵惜 */
+  .reg-badge{display:inline-block; font-size:10.5px; font-weight:700; border-radius:5px; padding:1px 7px; margin:0 2px; white-space:nowrap; vertical-align:middle;}
+  .reg-oral{background:var(--red-bg); color:var(--red);}
+  .reg-written{background:var(--paper-deep); color:var(--blue-deep);}
+  .reg-neutral{background:var(--green-bg); color:var(--green);}
+
+  /* �亙�摨� */
+  .w-fn-label{margin:16px 20px 8px; font-size:13px; font-weight:700; color:var(--gold); letter-spacing:.03em;}
+  .w-pattern-list{margin:0 20px; display:flex; flex-direction:column; gap:7px;}
+  .w-pattern-row{background:var(--card); border-radius:10px; box-shadow:var(--shadow); padding:9px 12px; display:flex; align-items:center; gap:10px;}
+  .w-pat-main{flex:1; min-width:0;}
+  .w-pat-fr-row{display:flex; align-items:center; gap:5px;}
+  .w-pat-fr-row .w-pat-fr{flex:1; min-width:0; font-size:14.5px; font-weight:600; color:var(--blue-deep);}
+  .w-pat-fr-row .speak-btn.wp-speak{font-size:14px; color:var(--blue); padding:2px;}
+  .w-pat-zh{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+
+  /* 蝭�𧋦嚗讐毀蝧鍦㨃�� */
+  .w-card{margin:0 20px 8px; background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:13px 15px; cursor:pointer; border-left:3px solid var(--blue); transition:transform .1s, box-shadow .15s;}
+  .w-card:active{transform:scale(.99);}
+  .w-card:hover{box-shadow:0 3px 14px rgba(99,124,178,0.18);}
+  .w-card-head{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .w-card-title{font-size:15.5px; font-weight:600; color:var(--blue-deep);}
+  .w-card-lv{font-family:'Fraunces','Noto Sans TC',serif; font-weight:700; font-size:12px; color:var(--blue-deep); background:var(--paper-deep); border-radius:5px; padding:1px 7px;}
+  .w-card-sum{font-size:12.5px; color:var(--ink-soft); margin-top:5px; line-height:1.5;}
+  .delf-tag{font-size:10.5px; font-weight:700; color:#fff; background:var(--gold); border-radius:5px; padding:1px 7px; letter-spacing:.04em;}
+
+  /* 蝭�𧋦閰單� */
+  .w-detail-tags{display:flex; gap:7px; margin-bottom:8px;}
+  .w-struct{margin:0 20px;}
+  .w-struct-block{margin-bottom:14px; padding-bottom:14px; border-bottom:1px dashed var(--rule);}
+  .w-struct-block:last-child{border-bottom:none;}
+  .w-struct-head{display:flex; align-items:center; gap:9px; margin-bottom:5px;}
+  .w-struct-num{flex-shrink:0; width:22px; height:22px; border-radius:50%; background:var(--margin); color:#fff; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center;}
+  .w-struct-part{font-size:14.5px; font-weight:600; color:var(--ink);}
+  .w-struct-hint{font-size:12.5px; color:var(--ink-soft); margin:0 0 7px 31px; line-height:1.5;}
+  .w-struct-sample{margin-left:31px; font-size:14px; color:var(--blue-deep); background:var(--paper-deep); border-radius:9px; padding:9px 12px; line-height:1.55;}
+  .w-struct-sample .speak-btn.ws-speak{font-size:13px; color:var(--blue); padding:1px 3px; vertical-align:middle; margin-left:3px;}
+
+  /* 蝺渡�閰單� */
+  .w-prompt{margin:0 20px 18px; font-size:14px; color:var(--ink); line-height:1.7; background:var(--green-bg); border-radius:11px; padding:13px 15px;}
+  .w-prompt-label{display:inline-block; font-size:11px; font-weight:700; color:var(--green); background:#fff; border-radius:5px; padding:1px 8px; margin-right:8px;}
+  .w-h{margin:0 20px 10px; font-size:13px; font-weight:700; color:var(--gold);}
+  .w-steps{margin:0 20px 22px;}
+  .w-step{background:var(--card); border-radius:10px; box-shadow:var(--shadow); padding:11px 13px; margin-bottom:8px;}
+  .w-step-label{font-size:14px; font-weight:600; color:var(--blue-deep);}
+  .w-step-detail{font-size:12.5px; color:var(--ink-soft); margin-top:4px; line-height:1.6;}
+  .w-checklist{margin:0 20px 10px; display:flex; flex-direction:column; gap:7px;}
+  .w-check{display:flex; gap:9px; align-items:flex-start; background:var(--card); border-radius:9px; box-shadow:var(--shadow); padding:10px 12px; cursor:pointer; font-size:13px; line-height:1.5;}
+  .w-check input{margin-top:2px; accent-color:var(--green); flex-shrink:0;}
+  .w-check.done span{color:var(--ink-soft); text-decoration:line-through;}
+
+  /* ===== 撖思��游�嚗𡁜�蝯�����卝���蝔踵� ===== */
+  .w-group-label{margin:6px 20px 10px; font-size:15px; font-weight:700; color:var(--blue-deep);}
+  .w-sub-label{margin:12px 20px 7px; font-family:'Fraunces','Noto Sans TC',serif; font-weight:700; font-size:13px; color:var(--margin);}
+  .w-type{display:inline-block; font-size:11px; font-weight:600; color:var(--blue-deep); background:var(--paper-deep); border-radius:5px; padding:1px 7px;}
+  .w-detail-tags{align-items:center;}
+
+  /* �厩阮獢� */
+  .w-draft-wrap{margin:0 20px 22px;}
+  .w-draft{width:100%; box-sizing:border-box; min-height:160px; resize:vertical; border:1.5px solid var(--paper-deep); border-radius:11px; padding:12px 14px; font-size:15px; line-height:1.7; color:var(--ink); background:#fff; outline:none;}
+  .w-draft:focus{border-color:var(--blue);}
+  .w-draft::placeholder{color:var(--ink-soft); opacity:.6; font-family:'Noto Sans TC',sans-serif;}
+  .w-draft-bar{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:8px;}
+  .w-wc{font-size:12.5px; color:var(--ink-soft);}
+  .w-wc b{color:var(--blue-deep); font-size:14px;}
+  .w-copy-btn{border:none; background:var(--blue-deep); color:#fff; font-family:inherit; font-size:12.5px; font-weight:600; padding:8px 13px; border-radius:9px; cursor:pointer; white-space:nowrap; transition:background .15s;}
+  .w-copy-btn:active{transform:scale(.97);}
+
+  /* ============ ��牧��� ============ */
+  .sp-tips{margin:0 20px 20px; padding-left:20px;}
+  .sp-tips li{font-size:13px; color:var(--ink); line-height:1.7; margin-bottom:5px;}
+  .sp-list{margin:0 20px; display:flex; flex-direction:column; gap:7px;}
+  .sp-row{background:var(--card); border-radius:10px; box-shadow:var(--shadow); padding:10px 13px; display:flex; align-items:flex-start; gap:10px;}
+  .sp-main{flex:1; min-width:0;}
+  .sp-fr-row{display:flex; align-items:center; gap:6px;}
+  .sp-fr-row .sp-fr{flex:1; min-width:0; font-size:15px; font-weight:600; color:var(--blue-deep);}
+  .sp-fr-row .speak-btn{font-size:15px; color:var(--blue); padding:2px;}
+  .sp-zh{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+  .sp-note{font-size:11.5px; color:var(--gold); margin-top:5px; line-height:1.5; background:rgba(201,161,75,0.08); border-radius:6px; padding:4px 8px;}
+  .sp-row .reg-badge{flex-shrink:0; margin-top:2px;}
+
+  /* ===== 撖思�蝭�𧋦嚗𡁜��渡��� ===== */
+  .w-model-note{display:flex; gap:8px; margin:0 20px 16px; font-size:12.5px; color:var(--blue-deep); background:var(--paper-deep); border-radius:10px; padding:10px 12px; line-height:1.6;}
+  .w-model{margin:0 20px;}
+  .w-model-line{padding:11px 0; border-bottom:1px solid var(--rule);}
+  .w-model-line:last-child{border-bottom:none;}
+  .w-ml-fr-row{display:flex; align-items:flex-start; gap:6px;}
+  .w-ml-fr-row .w-ml-fr{flex:1; min-width:0; font-size:15.5px; line-height:1.6; font-weight:500; color:var(--blue-deep);}
+  .w-ml-fr-row .speak-btn.wm-speak{flex-shrink:0; font-size:15px; color:var(--blue); padding:2px; margin-top:2px;}
+  .w-ml-zh{font-size:13px; color:var(--ink-soft); margin-top:4px; line-height:1.6;}
+
+  /* ===== ��牧嚗朞�霈���𨺗撠滨� ===== */
+  .sh-toggle{flex-shrink:0; border:none; background:none; cursor:pointer; font-size:14px; padding:2px 4px; opacity:.55; transition:opacity .15s; border-radius:6px;}
+  .sh-toggle:hover{opacity:.85;}
+  .sh-toggle.active{opacity:1; background:var(--paper-deep);}
+  .shadow-panel{display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin-top:9px; padding:9px 10px; background:var(--paper-deep); border-radius:10px;}
+  .sh-btn{border:none; background:#fff; color:var(--blue-deep); font-family:inherit; font-size:12px; font-weight:600; padding:6px 11px; border-radius:8px; cursor:pointer; box-shadow:var(--shadow); transition:transform .1s;}
+  .sh-btn:active{transform:scale(.96);}
+  .sh-btn:disabled{opacity:.4; cursor:default; box-shadow:none;}
+  .sh-btn.recording{background:var(--red); color:#fff; animation:shpulse 1s ease-in-out infinite;}
+  @keyframes shpulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+  .sh-status{font-size:11.5px; color:var(--ink-soft); flex-basis:100%;}
+  .sh-note{font-size:11px; color:var(--ink-soft); line-height:1.5; flex-basis:100%;}
+
+  /* ============ 蝮質汗���嚗𡁏㟲���撠� + �脣漲 ============ */
+  .gr-cat{margin:0 20px 14px;}
+  .gr-cat-label{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--blue-deep); margin:6px 0 8px; padding-left:9px; border-left:3px solid var(--blue);}
+  .gr-cat-label.ov-c-gram{border-color:var(--green);} .gr-cat-label.ov-c-dia{border-color:var(--gold);}
+  .gr-cat-label.ov-c-writ{border-color:var(--margin);} .gr-cat-label.ov-c-speak{border-color:var(--red);}
+  .gr-cat-n{font-size:11px; font-weight:600; color:#fff; background:var(--ink-soft); border-radius:9px; padding:1px 7px;}
+  .gr-row{background:var(--card); border-radius:10px; box-shadow:var(--shadow); padding:9px 12px; margin-bottom:6px; cursor:pointer; transition:transform .08s;}
+  .gr-row:active{transform:scale(.99);}
+  .gr-line{display:flex; align-items:center; gap:7px; flex-wrap:wrap;}
+  .gr-fr{font-size:14.5px; font-weight:600; color:var(--blue-deep);}
+  .gr-line .speak-btn{font-size:14px; color:var(--blue); padding:1px;}
+  .gr-zh{font-size:12.5px; color:var(--ink-soft);}
+  .gr-known{color:var(--green); font-weight:700; font-size:12px;}
+  .gr-badge{font-size:10.5px; font-weight:700; color:var(--blue-deep); background:var(--paper-deep); border-radius:6px; padding:1px 7px;}
+  .gr-meta{font-size:11px; color:var(--ink-soft); margin-top:3px;}
+  .gr-more{font-size:11.5px; color:var(--ink-soft); padding:3px 4px;}
+  .ov-h{font-size:14px; font-weight:700; color:var(--ink); margin:18px 20px 12px;}
+  .ov-prog{margin:0 20px 14px;}
+  .ov-prog-top{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px;}
+  .ov-prog-label{font-size:13px; font-weight:600; color:var(--ink);}
+  .ov-prog-num{font-size:12px; color:var(--blue-deep); font-weight:700;}
+  .ov-bar{height:9px; background:var(--paper-deep); border-radius:6px; overflow:hidden;}
+  .ov-bar.sm{height:6px;}
+  .ov-bar-fill{height:100%; background:linear-gradient(90deg,var(--blue),var(--green)); border-radius:6px; transition:width .4s ease;}
+  .ov-prog-sub{font-size:11px; color:var(--ink-soft); margin-top:4px;}
+  .ov-lv-grid{display:grid; grid-template-columns:1fr 1fr; gap:9px 14px; margin:0 20px 16px;}
+  .ov-lv-top{display:flex; justify-content:space-between; font-size:11px; color:var(--ink-soft); margin-bottom:3px;}
+  .ov-note{font-size:11px; color:var(--ink-soft); line-height:1.6; margin:4px 20px 14px; background:var(--paper-deep); border-radius:9px; padding:9px 11px;}
+  .ov-reset{display:block; margin:0 20px 24px; width:calc(100% - 40px); border:1px solid var(--red); background:none; color:var(--red); font-family:inherit; font-size:12.5px; font-weight:600; padding:9px; border-radius:9px; cursor:pointer;}
+  .ov-reset:active{background:var(--red-bg);}
+
+  /* ============ ��牧�颱蜓憿𣬚毀蝧� ============ */
+  .st-grid{margin:0 20px; display:flex; flex-direction:column; gap:8px;}
+  .st-card{background:var(--card); border-radius:11px; box-shadow:var(--shadow); padding:12px 14px; cursor:pointer; transition:transform .08s;}
+  .st-card:active{transform:scale(.99);}
+  .st-card-head{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+  .st-card-title{font-size:15px; font-weight:700; color:var(--ink);}
+  .st-lv{flex-shrink:0; font-size:10.5px; font-weight:700; color:#fff; border-radius:7px; padding:2px 8px;}
+  .st-lv-A1{background:var(--green);} .st-lv-A2{background:var(--blue);}
+  .st-lv-B1{background:var(--margin);} .st-lv-B2{background:var(--blue-deep);}
+  .st-card-meta{font-size:12px; color:var(--ink-soft); margin-top:5px;}
+  .st-items{margin:0 20px;}
+  .st-item{background:var(--card); border-radius:12px; box-shadow:var(--shadow); padding:13px 14px; margin-bottom:11px;}
+  .st-q{display:flex; gap:9px; align-items:flex-start;}
+  .st-qn{flex-shrink:0; font-size:11px; font-weight:700; color:#fff; background:var(--blue); border-radius:6px; padding:2px 7px; margin-top:2px;}
+  .st-q-main{flex:1; min-width:0;}
+  .st-q-fr-row{display:flex; align-items:flex-start; gap:6px;}
+  .st-q-fr{flex:1; min-width:0; font-size:14.5px; font-weight:600; color:var(--blue-deep);}
+  .st-q-fr-row .speak-btn{flex-shrink:0; font-size:14px; color:var(--blue); padding:1px; margin-top:2px;}
+  .st-q-zh{font-size:12px; color:var(--ink-soft); margin-top:3px;}
+  .st-a{margin-top:10px; padding:10px 11px; background:var(--green-bg); border-radius:9px;}
+  .st-a-label{font-size:10.5px; font-weight:700; color:var(--green); letter-spacing:.04em; margin-bottom:4px;}
+  .st-a-fr-row{display:flex; align-items:flex-start; gap:6px;}
+  .st-a-fr{flex:1; min-width:0; font-size:15px; font-weight:600; color:#2f6f63; line-height:1.55;}
+  .st-a-fr-row .speak-btn{flex-shrink:0; font-size:14px; color:var(--green); padding:1px; margin-top:2px;}
+  .st-a-zh{font-size:12.5px; color:#5a7a73; margin-top:4px; line-height:1.55;}
+  .st-a .sp-note{margin-top:6px;}
