@@ -1,0 +1,28 @@
+/* 主題資料：finance_c1 財務金融（C1）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.finance_c1 = [
+  {id:"fc1_01", word:"rendement", match:"rendement", pos:"n.m.", zh:"報酬率、收益率", example_fr:"Ce placement offre un bon rendement.", example_zh:"這項投資報酬率不錯。", art:"le"},
+  {id:"fc1_02", word:"portefeuille", match:"portefeuillefin", pos:"n.m.", zh:"投資組合", example_fr:"Il faut diversifier son portefeuille.", example_zh:"要分散投資組合。", art:"le"},
+  {id:"fc1_03", word:"diversification", match:"diversification", pos:"n.f.", zh:"分散投資", example_fr:"La diversification réduit le risque global.", example_zh:"分散投資能降低整體風險。", art:"la"},
+  {id:"fc1_04", word:"volatilité", match:"volatilite", pos:"n.f.", zh:"波動性", example_fr:"La volatilité du marché inquiète les investisseurs.", example_zh:"市場波動讓投資人擔憂。", art:"la"},
+  {id:"fc1_05", word:"liquidité", match:"liquidite", pos:"n.f.", zh:"流動性", example_fr:"Cette action manque de liquidité.", example_zh:"這檔股票流動性不足。", art:"la"},
+  {id:"fc1_06", word:"actif", match:"actiffin", pos:"n.m.", zh:"資產", example_fr:"L'entreprise possède de nombreux actifs.", example_zh:"公司擁有許多資產。", art:"l'"},
+  {id:"fc1_07", word:"passif", match:"passiffin", pos:"n.m.", zh:"負債", example_fr:"Il faut réduire le passif de la société.", example_zh:"必須減少公司的負債。", art:"le"},
+  {id:"fc1_08", word:"dividende", match:"dividende", pos:"n.m.", zh:"股利", example_fr:"Les actionnaires touchent un dividende chaque année.", example_zh:"股東每年領取股利。", art:"le"},
+  {id:"fc1_09", word:"plus-value", match:"plusvalue", pos:"n.f.", zh:"資本利得、增值", example_fr:"Il a réalisé une plus-value en revendant ses actions.", example_zh:"他賣出股票時實現了資本利得。", art:"la"},
+  {id:"fc1_10", word:"placement", match:"placement", pos:"n.m.", zh:"投資、理財", example_fr:"C'est un placement sûr mais peu rentable.", example_zh:"這是個安全但獲利不高的投資。", art:"le"},
+  {id:"fc1_11", word:"courtier", match:"courtier", pos:"n.m.", zh:"經紀人", example_fr:"Le courtier exécute les ordres de ses clients.", example_zh:"經紀人執行客戶的委託單。", art:"le"},
+  {id:"fc1_12", word:"indice", match:"indice", pos:"n.m.", zh:"指數", example_fr:"L'indice a gagné deux pour cent aujourd'hui.", example_zh:"指數今天上漲了百分之二。", art:"l'"},
+  {id:"fc1_13", word:"capitalisation", match:"capitalisation", pos:"n.f.", zh:"市值", example_fr:"La capitalisation boursière de l'entreprise est élevée.", example_zh:"該公司的市值很高。", art:"la"},
+  {id:"fc1_14", word:"rentabilité", match:"rentabilite", pos:"n.f.", zh:"獲利能力", example_fr:"On mesure la rentabilité d'un projet avant d'investir.", example_zh:"投資前要衡量專案的獲利能力。", art:"la"},
+  {id:"fc1_15", word:"solvabilité", match:"solvabilite", pos:"n.f.", zh:"償債能力", example_fr:"La banque vérifie la solvabilité du client.", example_zh:"銀行查核客戶的償債能力。", art:"la"},
+  {id:"fc1_16", word:"échéance", match:"echeance", pos:"n.f.", zh:"到期日", example_fr:"L'obligation arrive à échéance dans cinq ans.", example_zh:"這檔債券五年後到期。", art:"l'"},
+  {id:"fc1_17", word:"trésorerie", match:"tresorerie", pos:"n.f.", zh:"資金、現金週轉", example_fr:"L'entreprise manque de trésorerie.", example_zh:"公司資金週轉不靈。", art:"la"},
+  {id:"fc1_18", word:"créance", match:"creance", pos:"n.f.", zh:"債權", example_fr:"Le créancier a fini par recouvrer sa créance.", example_zh:"債權人最終收回了債權。", art:"la"},
+  {id:"fc1_19", word:"obligation", match:"obligationfin", pos:"n.f.", zh:"債券", example_fr:"Les obligations sont moins risquées que les actions.", example_zh:"債券比股票風險低。", art:"l'"},
+  {id:"fc1_20", word:"spéculation", match:"speculation", pos:"n.f.", zh:"投機", example_fr:"La spéculation fait souvent monter les prix.", example_zh:"投機往往推高價格。", art:"la"},
+  {id:"fc1_21", word:"levier", match:"levierfin", pos:"n.m.", zh:"槓桿", example_fr:"Le levier amplifie les gains comme les pertes.", example_zh:"槓桿同時放大獲利與虧損。", art:"le"},
+  {id:"fc1_22", word:"couverture", match:"couverturefin", pos:"n.f.", zh:"避險", example_fr:"Ils utilisent des options comme couverture.", example_zh:"他們用選擇權來避險。", art:"la"},
+  {id:"fc1_23", word:"haussier", match:"haussier", pos:"adj.", zh:"看漲的", example_fr:"Le marché est haussier en ce moment.", example_zh:"目前市場走勢看漲。"},
+  {id:"fc1_24", word:"baissier", match:"baissier", pos:"adj.", zh:"看跌的", example_fr:"Une tendance baissière s'installe.", example_zh:"跌勢正在形成。"},
+];
