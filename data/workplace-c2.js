@@ -1,0 +1,26 @@
+/* 主題資料：workplace_c2 職場用語（C2）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.workplace_c2 = [
+  {id:"wc2_01", word:"management", match:"management", pos:"n.m.", zh:"管理", example_fr:"Un management bienveillant motive les équipes.", example_zh:"善意的管理能激勵團隊。", art:"le"},
+  {id:"wc2_02", word:"leadership", match:"leadership", pos:"n.m.", zh:"領導力", example_fr:"Son leadership inspire confiance à tous.", example_zh:"他的領導力讓所有人信服。", art:"le"},
+  {id:"wc2_03", word:"gouvernance", match:"gouvernance", pos:"n.f.", zh:"治理", example_fr:"La gouvernance d'entreprise s'est nettement renforcée.", example_zh:"公司治理已明顯強化。", art:"la"},
+  {id:"wc2_04", word:"partie prenante", match:"partieprenante", pos:"n.f.", zh:"利害關係人", example_fr:"Il faut consulter toutes les parties prenantes.", example_zh:"必須諮詢所有利害關係人。", art:"la"},
+  {id:"wc2_05", word:"synergie", match:"synergie", pos:"n.f.", zh:"綜效", example_fr:"La fusion crée des synergies entre les deux groupes.", example_zh:"合併在兩家集團間創造綜效。", art:"la"},
+  {id:"wc2_06", word:"restructuration", match:"restructurationwc", pos:"n.f.", zh:"組織重整", example_fr:"La restructuration a supprimé plusieurs postes.", example_zh:"重整裁撤了好幾個職位。", art:"la"},
+  {id:"wc2_07", word:"réorganisation", match:"reorganisation", pos:"n.f.", zh:"組織重組", example_fr:"La réorganisation vise une plus grande efficacité.", example_zh:"重組旨在提升效率。", art:"la"},
+  {id:"wc2_08", word:"performance", match:"performance", pos:"n.f.", zh:"績效", example_fr:"Les indicateurs de performance sont au vert.", example_zh:"績效指標全亮綠燈。", art:"la"},
+  {id:"wc2_09", word:"rentable", match:"rentable", pos:"adj.", zh:"有利可圖的", example_fr:"Ce projet s'est révélé très rentable.", example_zh:"這個專案結果非常有賺頭。"},
+  {id:"wc2_10", word:"négociation", match:"negociation", pos:"n.f.", zh:"談判", example_fr:"La négociation a abouti à un accord.", example_zh:"談判最終達成協議。", art:"la"},
+  {id:"wc2_11", word:"arbitrage", match:"arbitragewc", pos:"n.m.", zh:"取捨、裁決", example_fr:"La direction doit faire des arbitrages difficiles.", example_zh:"管理層必須做出艱難的取捨。", art:"l'"},
+  {id:"wc2_12", word:"enjeu", match:"enjeu", pos:"n.m.", zh:"關鍵、利害所在", example_fr:"L'enjeu de cette décision est considérable.", example_zh:"這項決定的利害關係很重大。", art:"l'"},
+  {id:"wc2_13", word:"levier", match:"levierwc", pos:"n.m.", zh:"著力點、手段", example_fr:"La formation est un puissant levier de motivation.", example_zh:"培訓是強而有力的激勵手段。", art:"le"},
+  {id:"wc2_14", word:"rotation", match:"rotationwc", pos:"n.f.", zh:"人員流動率", example_fr:"Une forte rotation du personnel coûte cher.", example_zh:"高人員流動率代價高昂。", art:"la"},
+  {id:"wc2_15", word:"cooptation", match:"cooptation", pos:"n.f.", zh:"內部推薦", example_fr:"Le recrutement se fait souvent par cooptation.", example_zh:"招募常透過內部推薦進行。", art:"la"},
+  {id:"wc2_16", word:"épuisement", match:"epuisement", pos:"n.m.", zh:"職業倦怠（burn-out）", example_fr:"L'épuisement professionnel touche de nombreux cadres.", example_zh:"職業倦怠影響著許多主管。", art:"l'"},
+  {id:"wc2_17", word:"délégation", match:"delegation", pos:"n.f.", zh:"授權", example_fr:"La délégation responsabilise les équipes.", example_zh:"授權讓團隊更有責任感。", art:"la"},
+  {id:"wc2_18", word:"transversal", match:"transversal", pos:"adj.", zh:"跨部門的", example_fr:"Ce projet est transversal à toute l'entreprise.", example_zh:"這是個橫跨全公司的專案。"},
+  {id:"wc2_19", word:"opérationnel", match:"operationnel", pos:"adj.", zh:"可運作的、實務的", example_fr:"Le nouveau plan est désormais opérationnel.", example_zh:"新計畫現已可實際運作。"},
+  {id:"wc2_20", word:"fédérer", match:"federer", pos:"v.", zh:"凝聚", example_fr:"Un bon leader sait fédérer ses équipes.", example_zh:"好的領導者懂得凝聚團隊。"},
+  {id:"wc2_21", word:"optimiser", match:"optimiser", pos:"v.", zh:"最佳化", example_fr:"On cherche à optimiser les processus internes.", example_zh:"我們力求優化內部流程。"},
+  {id:"wc2_22", word:"pérenniser", match:"perenniser", pos:"v.", zh:"使長久持續", example_fr:"L'objectif est de pérenniser l'activité.", example_zh:"目標是讓業務能長久經營。"},
+];

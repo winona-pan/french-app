@@ -1,0 +1,26 @@
+/* 主題資料：tech_c2 科技（C2）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.tech_c2 = [
+  {id:"tc2_01", word:"cybersécurité", match:"cybersecurite", pos:"n.f.", zh:"資訊安全", example_fr:"La cybersécurité est devenue une priorité stratégique.", example_zh:"資安已成為戰略上的優先要務。", art:"la"},
+  {id:"tc2_02", word:"chiffrement", match:"chiffrement", pos:"n.m.", zh:"加密", example_fr:"Le chiffrement protège la confidentialité des échanges.", example_zh:"加密保護通訊的機密性。", art:"le"},
+  {id:"tc2_03", word:"mégadonnées", match:"megadonnees", pos:"n.f.pl", zh:"大數據", example_fr:"Les mégadonnées révolutionnent la prise de décision.", example_zh:"大數據徹底改變了決策方式。", art:"les"},
+  {id:"tc2_04", word:"virtualisation", match:"virtualisation", pos:"n.f.", zh:"虛擬化", example_fr:"La virtualisation réduit les coûts d'infrastructure.", example_zh:"虛擬化降低了基礎設施的成本。", art:"la"},
+  {id:"tc2_05", word:"interopérabilité", match:"interoperabilite", pos:"n.f.", zh:"互通性", example_fr:"L'interopérabilité des systèmes facilite les échanges.", example_zh:"系統的互通性讓資料交換更順暢。", art:"l'"},
+  {id:"tc2_06", word:"obsolescence", match:"obsolescence", pos:"n.f.", zh:"汰舊、過時", example_fr:"On dénonce l'obsolescence programmée des appareils.", example_zh:"人們抨擊裝置的計劃性汰舊。", art:"l'"},
+  {id:"tc2_07", word:"dématérialisation", match:"dematerialisation", pos:"n.f.", zh:"無紙化、數位化", example_fr:"La dématérialisation des documents accélère les procédures.", example_zh:"文件數位化加快了流程。", art:"la"},
+  {id:"tc2_08", word:"automatisation", match:"automatisation", pos:"n.f.", zh:"自動化", example_fr:"L'automatisation transforme de nombreux secteurs.", example_zh:"自動化正在改變許多產業。", art:"l'"},
+  {id:"tc2_09", word:"robotisation", match:"robotisation", pos:"n.f.", zh:"機器人化", example_fr:"La robotisation des usines suscite des inquiétudes.", example_zh:"工廠的機器人化引發憂慮。", art:"la"},
+  {id:"tc2_10", word:"fracture numérique", match:"fracturenumerique", pos:"n.f.", zh:"數位落差", example_fr:"La fracture numérique creuse les inégalités sociales.", example_zh:"數位落差加深了社會不平等。", art:"la"},
+  {id:"tc2_11", word:"souveraineté numérique", match:"souverainetenumerique", pos:"n.f.", zh:"數位主權", example_fr:"Les États défendent leur souveraineté numérique.", example_zh:"各國捍衛自己的數位主權。", art:"la"},
+  {id:"tc2_12", word:"traçabilité", match:"tracabilite", pos:"n.f.", zh:"可追溯性", example_fr:"La blockchain assure la traçabilité des transactions.", example_zh:"區塊鏈確保交易的可追溯性。", art:"la"},
+  {id:"tc2_13", word:"anonymisation", match:"anonymisation", pos:"n.f.", zh:"匿名化", example_fr:"L'anonymisation des données protège les utilisateurs.", example_zh:"資料匿名化保護使用者。", art:"l'"},
+  {id:"tc2_14", word:"vulnérabilité", match:"vulnerabilite", pos:"n.f.", zh:"漏洞、脆弱性", example_fr:"Les pirates exploitent la moindre vulnérabilité.", example_zh:"駭客會利用任何一個漏洞。", art:"la"},
+  {id:"tc2_15", word:"rançongiciel", match:"rancongiciel", pos:"n.m.", zh:"勒索軟體", example_fr:"Un rançongiciel a paralysé tout le réseau.", example_zh:"一款勒索軟體癱瘓了整個網路。", art:"le"},
+  {id:"tc2_16", word:"hameçonnage", match:"hameconnage", pos:"n.m.", zh:"網路釣魚", example_fr:"L'hameçonnage vise à voler vos identifiants.", example_zh:"網路釣魚意在竊取你的帳密。", art:"l'"},
+  {id:"tc2_17", word:"maliciel", match:"maliciel", pos:"n.m.", zh:"惡意軟體", example_fr:"Un antivirus détecte la plupart des maliciels.", example_zh:"防毒軟體能偵測多數惡意軟體。", art:"le"},
+  {id:"tc2_18", word:"résilience", match:"resiliencetech", pos:"n.f.", zh:"韌性、回復力", example_fr:"La résilience d'un système se mesure en cas de panne.", example_zh:"系統的韌性在故障時才看得出來。", art:"la"},
+  {id:"tc2_19", word:"infrastructure", match:"infrastructure", pos:"n.f.", zh:"基礎設施", example_fr:"L'infrastructure informatique doit être modernisée.", example_zh:"資訊基礎設施需要現代化。", art:"l'"},
+  {id:"tc2_20", word:"déploiement", match:"deploiement", pos:"n.m.", zh:"部署、上線", example_fr:"Le déploiement du logiciel se fera par étapes.", example_zh:"這套軟體將分階段上線。", art:"le"},
+  {id:"tc2_21", word:"évolutif", match:"evolutif", pos:"adj.", zh:"可擴展的", example_fr:"L'architecture est évolutive et s'adapte à la demande.", example_zh:"這套架構可擴展，能因應需求。"},
+  {id:"tc2_22", word:"décentralisé", match:"decentralise", pos:"adj.", zh:"去中心化的", example_fr:"Un réseau décentralisé résiste mieux aux pannes.", example_zh:"去中心化的網路更能抵抗故障。"},
+];
