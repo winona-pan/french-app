@@ -147,6 +147,7 @@ let state = {
   speakingView:"topics",   // "topics" | "exam" | "daily" | "slang"
   currentSpeakId:null,
   currentTopicId:null,
+  currentCultureId:null,
   vocabView:"cards",    // "cards" | "list"
   flashIndex:0,
   skipLearned:true,     // 字卡是否跳過已學會的字（仍可切換成複習全部）
@@ -158,7 +159,7 @@ const app = document.getElementById("app");
 
 /* ============ 頂層分頁：單字 / 文法 / 寫作 ============ */
 function tabBarHtml(active){
-  const tabs=[["vocab","單字"],["grammar","文法"],["writing","寫作"],["speaking","口說"],["overview","總覽"]];
+  const tabs=[["vocab","單字"],["grammar","文法"],["writing","寫作"],["speaking","口說"],["culture","文化"],["overview","總覽"]];
   return `<nav class="main-tabs">`+tabs.map(([k,l])=>`<button data-tab="${k}" class="${active===k?'active':''}">${l}</button>`).join("")+`</nav>`;
 }
 function wireTabBar(){
@@ -172,6 +173,7 @@ function routeHome(){
   else if(state.tab==="writing") renderWritingHome();
   else if(state.tab==="speaking") renderSpeakingHome();
   else if(state.tab==="overview") renderOverview();
+  else if(state.tab==="culture") renderCultureHome();
   else renderHome();
 }
 /* 表格儲存格自動判斷中／法字型（含中文字 → 中文，否則 → 法文襯線）*/
@@ -561,7 +563,7 @@ function renderSTopicDetail(){
   const items=tp.items.map((it,i)=>{
     const aFr=(it.a||'').replace(/"/g,'&quot;');
     return `<div class="st-item">
-      <div class="st-q">
+      <div class="st-q" data-fr="${(it.q||'').replace(/"/g,'&quot;')}">
         <span class="st-qn">Q${i+1}</span>
         <div class="st-q-main">
           <div class="st-q-fr-row"><span class="st-q-fr fr-display">${it.q}</span>${speakBtnHtml('st-q-speak')}</div>
@@ -652,6 +654,196 @@ function renderSSlang(){
 }
 
 /* ============ 總覽分頁：整合搜尋 ＋ 學習進度 ============ */
+/* ============ 文化分頁 ============ */
+function renderFetes(){
+  window.scrollTo(0,0);
+  const F=window.FETES||[];
+  const rows=F.map(f=>`
+    <div class="fete-row" data-fr="${(f.fr||'').replace(/"/g,'&quot;')}">
+      <div class="fete-date zh">${f.date}</div>
+      <div class="fete-main">
+        <div class="fete-fr-row"><span class="fete-fr fr-display">${f.fr}</span>${speakBtnHtml('fete-speak')}<span class="fete-zh zh">${f.zh}</span></div>
+        <div class="fete-note zh">${f.note}</div>
+        ${f.greet?`<div class="fete-greet" data-fr="${(f.greet||'').replace(/"/g,'&quot;')}"><span class="fete-greet-tag zh">🗣️ 這天會說</span><span class="fete-greet-fr fr-display">${f.greet}</span>${speakBtnHtml('fete-greet-speak')}<span class="fete-greet-zh zh">${f.greetzh||''}</span></div>`:''}
+        <div class="fete-tw zh"><span class="fete-tw-tag">🇹🇼 台灣對照</span>${f.tw}</div>
+      </div>
+    </div>`).join("");
+  app.innerHTML = `
+    <button class="back-btn" id="feteBack">← 回文化主題</button>
+    <div class="g-detail-head">
+      <div class="w-detail-tags"><span class="w-type zh">📅 文化</span></div>
+      <h2 class="zh">節慶日曆</h2>
+      <div class="g-detail-sum zh">法國一年的重要節日，依日期排序，並對照台灣。日期部分節日每年浮動（如復活節、母親節）。點 🔊 可聽法語節日名稱。</div>
+    </div>
+    <div class="fete-list">${rows}</div>
+  `;
+  document.getElementById("feteBack").onclick=()=>renderCultureHome();
+  wireSpeakIn(app,"fete-speak");
+  wireSpeakIn(app,"fete-greet-speak");
+}
+
+function renderCultureHome(){
+  state.currentCultureId=null;
+  const C=window.CULTURE||[];
+  app.innerHTML = `
+    <header class="top">
+      <div class="eyebrow">Carnet de Français</div>
+      <h1>法國文化筆記</h1>
+      <div class="sub">在法國要注意的點・與台灣／亞洲不同之處</div>
+    </header>
+    ${tabBarHtml('culture')}
+    <div class="w-intro zh">給亞洲學習者的文化提醒：禮儀、餐桌、社交、生活節奏、校園職場與禁忌。每個主題裡，<b>🌏 與亞洲不同</b> 那一行特別點出落差。法語例句可點 🔊 聽發音。</div>
+    <div class="cu-list"></div>
+  `;
+  wireTabBar();
+  const list=app.querySelector(".cu-list");
+  if((window.FETES||[]).length){
+    const fcard=el(`<div class="cu-cat-card cu-fete-entry">
+      <div class="cu-cat-head"><span class="cu-cat-ico">📅</span><span class="cu-cat-title zh">節慶日曆</span></div>
+      <div class="cu-cat-meta zh">法國重要節日 vs 台灣 ・ ${window.FETES.length} 個節日</div>
+    </div>`);
+    fcard.onclick=()=>renderFetes();
+    list.appendChild(fcard);
+  }
+  if(!C.length){ if(!(window.FETES||[]).length) list.innerHTML=`<div class="search-empty zh">文化內容即將加入</div>`; return; }
+  C.forEach(cat=>{
+    const card=el(`<div class="cu-cat-card">
+      <div class="cu-cat-head"><span class="cu-cat-ico">${cat.icon||"🇫🇷"}</span><span class="cu-cat-title zh">${cat.title}</span></div>
+      <div class="cu-cat-meta zh">${cat.intro||""} ・ ${cat.items.length} 則</div>
+    </div>`);
+    card.onclick=()=>{ state.currentCultureId=cat.id; renderCultureCat(); };
+    list.appendChild(card);
+  });
+}
+
+function renderCultureCat(){
+  window.scrollTo(0,0);
+  const cat=(window.CULTURE||[]).find(c=>c.id===state.currentCultureId);
+  if(!cat){ renderCultureHome(); return; }
+  const items=cat.items.map(it=>{
+    const frBlock = it.fr ? `<div class="cu-fr-row" data-fr="${(it.fr||'').replace(/"/g,'&quot;')}"><span class="cu-fr fr-display">${it.fr}</span>${speakBtnHtml('cu-speak')}${it.frzh?`<span class="cu-frzh zh">${it.frzh}</span>`:''}</div>` : "";
+    return `<div class="cu-item">
+      ${frBlock}
+      <div class="cu-head zh">${it.zh}</div>
+      <div class="cu-note zh">${it.note}</div>
+      ${it.asia?`<div class="cu-asia zh"><span class="cu-asia-tag">🌏 與亞洲不同</span>${it.asia}</div>`:''}
+    </div>`;
+  }).join("");
+  app.innerHTML = `
+    <button class="back-btn" id="cuBack">← 回文化主題</button>
+    <div class="g-detail-head">
+      <div class="w-detail-tags"><span class="w-type zh">${cat.icon||"🇫🇷"} 文化</span></div>
+      <h2 class="zh">${cat.title}</h2>
+      ${cat.intro?`<div class="g-detail-sum zh">${cat.intro}</div>`:''}
+    </div>
+    <div class="cu-items">${items}</div>
+  `;
+  document.getElementById("cuBack").onclick=()=>{ renderCultureHome(); };
+  wireSpeakIn(app,"cu-speak");
+}
+
+/* ============ 跨裝置同步：GitHub Gist + 手動匯出入 ============ */
+const GH_API="https://api.github.com", SYNC_FILE="carnet-progress.json";
+const LS_TOKEN="fr_gh_token", LS_GIST="fr_gh_gist";
+
+function collectProgress(){
+  const drafts={};
+  try{ for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.indexOf("fr_draft_")===0){ const v=localStorage.getItem(k); if(v && v.trim()) drafts[k]=v; } } }catch(e){}
+  return { app:"carnet-de-francais", v:1, ts:Date.now(),
+    known:[...loadSet(LS_KNOWN)], starred:[...loadSet(LS_STAR)],
+    gramSeen:[...loadSet(LS_GRAM_SEEN)], tplSeen:[...loadSet(LS_TPL_SEEN)], drafts };
+}
+function applyProgress(obj){
+  if(!obj || obj.v!==1) throw new Error("格式不符");
+  const mergeSet=(key,arr)=>{ const s=loadSet(key); (arr||[]).forEach(x=>s.add(x)); saveSet(key,s); };
+  mergeSet(LS_KNOWN,obj.known); mergeSet(LS_STAR,obj.starred);
+  mergeSet(LS_GRAM_SEEN,obj.gramSeen); mergeSet(LS_TPL_SEEN,obj.tplSeen);
+  if(obj.drafts){ Object.keys(obj.drafts).forEach(k=>{ if(k.indexOf("fr_draft_")===0){ const cur=localStorage.getItem(k); const inc=obj.drafts[k]; if(!cur || !cur.trim() || (inc && inc.length>cur.length)) localStorage.setItem(k,inc); } }); }
+  known=loadSet(LS_KNOWN); starred=loadSet(LS_STAR); gramSeen=loadSet(LS_GRAM_SEEN); tplSeen=loadSet(LS_TPL_SEEN);
+}
+async function ghFetch(path, opts){
+  const token=localStorage.getItem(LS_TOKEN);
+  if(!token) throw new Error("尚未連結 GitHub");
+  const r=await fetch(GH_API+path, Object.assign({}, opts||{}, {headers:{
+    "Authorization":"Bearer "+token, "Accept":"application/vnd.github+json", "X-GitHub-Api-Version":"2022-11-28"
+  }}));
+  if(!r.ok){ let m=String(r.status); if(r.status===401) m="權杖無效或已過期(401)"; else if(r.status===403) m="權限不足或被限制(403)"; else { try{const j=await r.json(); if(j.message) m+=" "+j.message;}catch(e){} } throw new Error(m); }
+  return r.json();
+}
+async function ghFindOrCreate(){
+  let id=localStorage.getItem(LS_GIST);
+  if(id) return id;
+  const list=await ghFetch("/gists?per_page=100",{method:"GET"});
+  const found=Array.isArray(list)&&list.find(g=>g.files && g.files[SYNC_FILE]);
+  if(found){ localStorage.setItem(LS_GIST,found.id); return found.id; }
+  const body={ description:"Carnet de Français — 學習進度（請勿刪除）", public:false, files:{ [SYNC_FILE]:{ content: JSON.stringify(collectProgress(),null,2) } } };
+  const g=await ghFetch("/gists",{method:"POST", body:JSON.stringify(body)});
+  localStorage.setItem(LS_GIST,g.id); return g.id;
+}
+async function ghUpload(){
+  const id=await ghFindOrCreate();
+  await ghFetch("/gists/"+id,{method:"PATCH", body:JSON.stringify({ files:{ [SYNC_FILE]:{ content: JSON.stringify(collectProgress(),null,2) } } })});
+}
+async function ghDownload(){
+  const id=await ghFindOrCreate();
+  const g=await ghFetch("/gists/"+id,{method:"GET"});
+  const f=g.files && g.files[SYNC_FILE];
+  if(!f) throw new Error("雲端找不到進度檔");
+  let content=f.content;
+  if(f.truncated && f.raw_url){ content=await (await fetch(f.raw_url)).text(); }
+  applyProgress(JSON.parse(content));
+}
+
+function renderSync(){
+  const wrap=document.getElementById("ovSync");
+  if(!wrap) return;
+  const linked=!!localStorage.getItem(LS_TOKEN);
+  wrap.innerHTML = `
+    <div class="ov-h zh">跨裝置同步</div>
+    <div class="sync-box">
+      ${linked ? `
+        <div class="sync-status zh">✅ 已連結 GitHub。在另一台裝置貼上同一組權杖，就能載入進度。</div>
+        <div class="sync-btns">
+          <button id="syncUp" class="sync-btn zh">⬆️ 上傳到雲端</button>
+          <button id="syncDown" class="sync-btn zh">⬇️ 從雲端載入</button>
+        </div>
+        <button id="syncUnlink" class="sync-unlink zh">中斷連結（清除此裝置權杖）</button>
+      ` : `
+        <div class="sync-status zh">用一組 GitHub 個人存取權杖，把進度存到你帳號下的<b>私密 Gist</b>，即可跨裝置同步。</div>
+        <input id="syncToken" type="password" class="sync-input" placeholder="貼上 GitHub Token（需 gist 權限）" autocomplete="off">
+        <button id="syncLink" class="sync-btn zh">連結 GitHub</button>
+        <div class="sync-help zh">取得方式：GitHub → Settings → Developer settings → Personal access tokens，產生一組勾選 <b>gist</b> 權限的權杖。權杖只存在<b>這台裝置的瀏覽器</b>，請勿寫進程式或公開。</div>
+      `}
+      <div id="syncMsg" class="sync-msg zh"></div>
+      <div class="sync-sep"></div>
+      <div class="sync-status zh">或不用帳號，手動搬移進度：</div>
+      <div class="sync-btns">
+        <button id="expBtn" class="sync-btn2 zh">📋 複製我的進度</button>
+        <button id="impBtn" class="sync-btn2 zh">📥 貼上還原</button>
+      </div>
+      <textarea id="impArea" class="sync-ta" placeholder="把另一台裝置複製的進度碼貼在這裡，再按『貼上還原』" style="display:none;"></textarea>
+    </div>`;
+  const msg=(t,ok)=>{ const m=document.getElementById("syncMsg"); if(m){ m.textContent=t; m.className="sync-msg zh"+(ok===true?" ok":ok===false?" err":""); } };
+  const linkBtn=document.getElementById("syncLink");
+  if(linkBtn) linkBtn.onclick=async()=>{
+    const t=(document.getElementById("syncToken").value||"").trim();
+    if(!t){ msg("請先貼上權杖",false); return; }
+    localStorage.setItem(LS_TOKEN,t); localStorage.removeItem(LS_GIST); msg("連結中…");
+    try{ await ghUpload(); renderSync(); setTimeout(()=>msg("✅ 已連結並上傳目前進度",true),0); }
+    catch(e){ localStorage.removeItem(LS_TOKEN); msg("連結失敗："+e.message,false); }
+  };
+  const up=document.getElementById("syncUp");
+  if(up) up.onclick=async()=>{ msg("上傳中…"); try{ await ghUpload(); msg("✅ 已上傳到雲端",true);}catch(e){ msg("上傳失敗："+e.message,false);} };
+  const down=document.getElementById("syncDown");
+  if(down) down.onclick=async()=>{ msg("下載中…"); try{ await ghDownload(); renderProgress(); msg("✅ 已從雲端載入並與本機合併",true);}catch(e){ msg("下載失敗："+e.message,false);} };
+  const unlink=document.getElementById("syncUnlink");
+  if(unlink) unlink.onclick=()=>{ localStorage.removeItem(LS_TOKEN); localStorage.removeItem(LS_GIST); renderSync(); };
+  const exp=document.getElementById("expBtn");
+  if(exp) exp.onclick=async()=>{ const code=JSON.stringify(collectProgress()); try{ await navigator.clipboard.writeText(code); msg("✅ 進度碼已複製，貼到另一台裝置即可",true);}catch(e){ const ta=document.getElementById("impArea"); ta.style.display="block"; ta.value=code; ta.select(); msg("已顯示進度碼，請手動複製",true);} };
+  const imp=document.getElementById("impBtn");
+  if(imp) imp.onclick=()=>{ const ta=document.getElementById("impArea"); if(ta.style.display==="none"){ ta.style.display="block"; msg("把進度碼貼到下方，再按一次『貼上還原』"); return;} try{ applyProgress(JSON.parse(ta.value.trim())); renderProgress(); msg("✅ 已還原並與本機合併",true);}catch(e){ msg("還原失敗：格式不正確",false);} };
+}
+
 function renderOverview(){
   state.currentSpeakId=null;
   app.innerHTML = `
@@ -667,12 +859,14 @@ function renderOverview(){
     </div>
     <div id="gResults"></div>
     <div id="ovProgress"></div>
+    <div id="ovSync"></div>
   `;
   wireTabBar();
   const inp=document.getElementById("gSearch");
   inp.oninput=(ev)=>{ state.gQuery=ev.target.value; renderGlobalResults(); };
   renderGlobalResults();
   renderProgress();
+  renderSync();
 }
 
 function globalSearch(q){
@@ -728,8 +922,9 @@ function renderGlobalResults(){
   const prog=document.getElementById("ovProgress");
   if(!box) return;
   const q=state.gQuery||"";
-  if(!q.trim()){ box.innerHTML=""; if(prog) prog.style.display=""; return; }
+  if(!q.trim()){ box.innerHTML=""; if(prog) prog.style.display=""; const sy=document.getElementById("ovSync"); if(sy) sy.style.display=""; return; }
   if(prog) prog.style.display="none";
+  { const sy=document.getElementById("ovSync"); if(sy) sy.style.display="none"; }
   const r=globalSearch(q);
   const total=r.vocab.length+r.grammar.length+r.dialogue.length+r.writing.length+r.speaking.length;
   box.innerHTML="";
