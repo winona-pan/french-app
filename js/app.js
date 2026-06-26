@@ -148,6 +148,8 @@ let state = {
   currentSpeakId:null,
   currentTopicId:null,
   currentCultureId:null,
+  lexSec:0,
+  currentLexCat:null,
   vocabView:"cards",    // "cards" | "list"
   flashIndex:0,
   skipLearned:true,     // 字卡是否跳過已學會的字（仍可切換成複習全部）
@@ -159,7 +161,7 @@ const app = document.getElementById("app");
 
 /* ============ 頂層分頁：單字 / 文法 / 寫作 ============ */
 function tabBarHtml(active){
-  const tabs=[["vocab","單字"],["grammar","文法"],["writing","寫作"],["speaking","口說"],["culture","文化"],["overview","總覽"]];
+  const tabs=[["vocab","單字"],["lex","辭典"],["grammar","文法"],["writing","寫作"],["speaking","口說"],["culture","文化"],["overview","總覽"]];
   return `<nav class="main-tabs">`+tabs.map(([k,l])=>`<button data-tab="${k}" class="${active===k?'active':''}">${l}</button>`).join("")+`</nav>`;
 }
 function wireTabBar(){
@@ -174,6 +176,7 @@ function routeHome(){
   else if(state.tab==="speaking") renderSpeakingHome();
   else if(state.tab==="overview") renderOverview();
   else if(state.tab==="culture") renderCultureHome();
+  else if(state.tab==="lex") renderLexHome();
   else renderHome();
 }
 /* 表格儲存格自動判斷中／法字型（含中文字 → 中文，否則 → 法文襯線）*/
@@ -682,6 +685,99 @@ function renderFetes(){
   wireSpeakIn(app,"fete-greet-speak");
 }
 
+/* ============ 生活辭典分頁 ============ */
+function lexCatData(id){ return (window.VOCAB && window.VOCAB[id]) || null; }
+
+function renderLexHome(){
+  state.currentLexCat=null;
+  const L=window.LEXIQUE||[];
+  app.innerHTML = `
+    <header class="top">
+      <div class="eyebrow">Carnet de Français</div>
+      <h1>生活辭典</h1>
+      <div class="sub">依主題分類的生活詞彙・與單字共用搜尋</div>
+    </header>
+    ${tabBarHtml('lex')}
+    <div class="w-intro zh">像辭典一樣依主題收錄生活用語：選大分類 → 子分類 → 小類別。內容陸續擴充中，標「即將補上」的之後會補。所有已收錄的詞，總覽分頁的搜尋也找得到。</div>
+    <div class="lex-sec-grid"></div>
+  `;
+  wireTabBar();
+  const grid=app.querySelector(".lex-sec-grid");
+  L.forEach((sec,i)=>{
+    let total=0, done=0;
+    sec.subs.forEach(s=>s.cats.forEach(c=>{ const d=lexCatData(c.id); if(d){ total+=d.length; done++; } }));
+    const card=el(`<div class="lex-sec-card">
+      <div class="lex-sec-head"><span class="lex-sec-ico">${sec.icon}</span><span class="lex-sec-title zh">${sec.sec}</span></div>
+      <div class="lex-sec-meta zh">${done>0?`已收錄 ${done} 類 ・ ${total} 字`:"即將補上"}</div>
+    </div>`);
+    card.onclick=()=>{ state.lexSec=i; renderLexSec(); };
+    grid.appendChild(card);
+  });
+}
+
+function renderLexSec(){
+  window.scrollTo(0,0);
+  const sec=(window.LEXIQUE||[])[state.lexSec];
+  if(!sec){ renderLexHome(); return; }
+  const subsHtml=sec.subs.map(sub=>{
+    const chips=sub.cats.map(c=>{
+      const d=lexCatData(c.id);
+      if(d) return `<button class="lex-chip" data-cat="${c.id}"><span class="lex-chip-name zh">${c.name}</span><span class="lex-chip-n">${d.length}</span></button>`;
+      return `<span class="lex-chip lex-chip-soon"><span class="lex-chip-name zh">${c.name}</span><span class="lex-chip-soon-tag zh">即將補上</span></span>`;
+    }).join("");
+    return `<div class="lex-sub"><div class="lex-sub-title zh">${sub.sub}</div><div class="lex-chip-row">${chips}</div></div>`;
+  }).join("");
+  app.innerHTML = `
+    <button class="back-btn" id="lexBack">← 回辭典分類</button>
+    <div class="g-detail-head">
+      <div class="w-detail-tags"><span class="w-type zh">${sec.icon} 生活辭典</span></div>
+      <h2 class="zh">${sec.sec}</h2>
+    </div>
+    ${subsHtml}
+  `;
+  document.getElementById("lexBack").onclick=()=>renderLexHome();
+  app.querySelectorAll(".lex-chip[data-cat]").forEach(b=>b.onclick=()=>{ state.currentLexCat=b.dataset.cat; renderLexCat(); });
+}
+
+function findLexCatName(id){
+  let name=id;
+  (window.LEXIQUE||[]).forEach(sec=>sec.subs.forEach(sub=>sub.cats.forEach(c=>{ if(c.id===id) name=c.name; })));
+  return name;
+}
+
+function renderLexCat(){
+  window.scrollTo(0,0);
+  const id=state.currentLexCat;
+  const data=lexCatData(id);
+  if(!data){ renderLexSec(); return; }
+  const name=findLexCatName(id);
+  const rows=data.map(e=>{
+    const w=withArt(e);
+    return `<div class="lex-word" data-fr="${w.replace(/"/g,'&quot;')}">
+      <div class="lex-word-main"><span class="lex-word-fr fr-display">${w}</span>${speakBtnHtml('lex-speak')}</div>
+      <div class="lex-word-info"><span class="lex-pos">${e.pos||''}</span><span class="lex-zh zh">${e.zh}</span></div>
+    </div>`;
+  }).join("");
+  app.innerHTML = `
+    <button class="back-btn" id="lexBack2">← 回上一層</button>
+    <div class="g-detail-head">
+      <div class="w-detail-tags"><span class="w-type zh">📖 ${data.length} 字</span></div>
+      <h2 class="zh">${name}</h2>
+    </div>
+    <div class="section-label">練習區</div>
+    <div class="practice-grid">
+      <button class="practice-tile" id="lexQuizMC"><span class="ico">🔤</span><span class="lbl zh">中法選擇題</span></button>
+      <button class="practice-tile" id="lexQuizSpell"><span class="ico">⌨️</span><span class="lbl zh">拼字測驗</span></button>
+    </div>
+    <div id="quizArea"></div>
+    <div class="lex-words">${rows}</div>
+  `;
+  document.getElementById("lexBack2").onclick=()=>renderLexSec();
+  document.getElementById("lexQuizMC").onclick=()=>startQuiz("mc", data);
+  document.getElementById("lexQuizSpell").onclick=()=>startQuiz("spell", data);
+  wireSpeakIn(app,"lex-speak");
+}
+
 function renderCultureHome(){
   state.currentCultureId=null;
   const C=window.CULTURE||[];
@@ -932,7 +1028,7 @@ function renderGlobalResults(){
   box.appendChild(el(`<div class="search-count zh">共 ${total} 筆結果</div>`));
 
   gCatSection(box,"單字","ov-c-vocab", r.vocab, (it)=>{
-    const row=el(`<div class="gr-row"><div class="gr-line"><span class="gr-fr fr-display">${withArt(it.e)}</span>${speakBtnHtml('gr-speak')}<span class="gr-zh zh">${it.e.zh}</span>${known.has(it.e.id)?'<span class="gr-known">✓</span>':''}</div><div class="gr-meta zh">${it.theme.level}・${it.theme.name}</div></div>`);
+    const row=el(`<div class="gr-row"><div class="gr-line"><span class="gr-fr fr-display">${withArt(it.e)}</span>${speakBtnHtml('gr-speak')}<span class="gr-zh zh">${it.e.zh}</span>${known.has(it.e.id)?'<span class="gr-known">✓</span>':''}</div><div class="gr-meta zh">${it.theme.level==="lex"?"辭典":it.theme.level}・${it.theme.name}</div></div>`);
     const sb=row.querySelector(".speak-btn.gr-speak"); if(sb) sb.onclick=(ev)=>{ev.stopPropagation(); speak(withArt(it.e),true,sb);};
     row.onclick=()=>{ state.tab="vocab"; state.currentThemeId=it.theme.id; state.flashIndex=0; state.skipLearned=false; renderTheme(); };
     return row;
