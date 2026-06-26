@@ -1,0 +1,26 @@
+/* 主題資料：campus_c2 校園用語（C2）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.campus_c2 = [
+  {id:"cc2_01", word:"problématique", match:"problematique", pos:"n.f.", zh:"問題意識", example_fr:"Tout mémoire commence par une problématique claire.", example_zh:"任何論文都始於清楚的問題意識。", art:"la"},
+  {id:"cc2_02", word:"hypothèse", match:"hypothese", pos:"n.f.", zh:"假設", example_fr:"Il faut vérifier l'hypothèse de départ.", example_zh:"必須驗證最初的假設。", art:"l'"},
+  {id:"cc2_03", word:"méthodologie", match:"methodologie", pos:"n.f.", zh:"方法論", example_fr:"La méthodologie doit être rigoureuse.", example_zh:"方法論必須嚴謹。", art:"la"},
+  {id:"cc2_04", word:"corpus", match:"corpus", pos:"n.m.", zh:"語料、研究材料", example_fr:"J'ai constitué un corpus de cent articles.", example_zh:"我建立了一個百篇文章的語料庫。", art:"le"},
+  {id:"cc2_05", word:"soutenance", match:"soutenance", pos:"n.f.", zh:"口試、答辯", example_fr:"Ma soutenance de mémoire a lieu en juin.", example_zh:"我的論文口試在六月。", art:"la"},
+  {id:"cc2_06", word:"jury", match:"jury", pos:"n.m.", zh:"口試委員會", example_fr:"Le jury a salué la qualité du travail.", example_zh:"口試委員肯定這份研究的品質。", art:"le"},
+  {id:"cc2_07", word:"thèse", match:"these", pos:"n.f.", zh:"論點、博士論文", example_fr:"Il défend sa thèse avec assurance.", example_zh:"他充滿自信地捍衛自己的論點。", art:"la"},
+  {id:"cc2_08", word:"doctorat", match:"doctorat", pos:"n.m.", zh:"博士學位", example_fr:"Elle prépare un doctorat en économie.", example_zh:"她正在攻讀經濟學博士。", art:"le"},
+  {id:"cc2_09", word:"argumentation", match:"argumentationcampus", pos:"n.f.", zh:"論證", example_fr:"Son argumentation est solide et structurée.", example_zh:"他的論證紮實且有條理。", art:"l'"},
+  {id:"cc2_10", word:"raisonnement", match:"raisonnement", pos:"n.m.", zh:"推理", example_fr:"Le raisonnement manque parfois de clarté.", example_zh:"這段推理有時不夠清晰。", art:"le"},
+  {id:"cc2_11", word:"synthèse", match:"synthese", pos:"n.f.", zh:"綜述、整合", example_fr:"La conclusion propose une synthèse des idées.", example_zh:"結論對各種觀點做了整合。", art:"la"},
+  {id:"cc2_12", word:"plagiat", match:"plagiat", pos:"n.m.", zh:"抄襲", example_fr:"Le plagiat est lourdement sanctionné.", example_zh:"抄襲會受到嚴厲處分。", art:"le"},
+  {id:"cc2_13", word:"épistémologie", match:"epistemologie", pos:"n.f.", zh:"知識論", example_fr:"L'épistémologie étudie la nature du savoir.", example_zh:"知識論研究知識的本質。", art:"l'"},
+  {id:"cc2_14", word:"interdisciplinarité", match:"interdisciplinarite", pos:"n.f.", zh:"跨領域", example_fr:"L'interdisciplinarité enrichit la recherche.", example_zh:"跨領域讓研究更豐富。", art:"l'"},
+  {id:"cc2_15", word:"rigueur", match:"rigueurcampus", pos:"n.f.", zh:"嚴謹", example_fr:"On attend une grande rigueur scientifique.", example_zh:"研究要求高度的科學嚴謹。", art:"la"},
+  {id:"cc2_16", word:"pertinence", match:"pertinence", pos:"n.f.", zh:"切題、相關性", example_fr:"Le jury a souligné la pertinence de l'analyse.", example_zh:"口試委員強調這份分析很切題。", art:"la"},
+  {id:"cc2_17", word:"objectivité", match:"objectivitecampus", pos:"n.f.", zh:"客觀性", example_fr:"L'objectivité est essentielle dans une démarche scientifique.", example_zh:"客觀性在科學研究中至關重要。", art:"l'"},
+  {id:"cc2_18", word:"pluridisciplinaire", match:"pluridisciplinaire", pos:"adj.", zh:"跨學科的", example_fr:"C'est un projet pluridisciplinaire.", example_zh:"這是個跨學科的專案。"},
+  {id:"cc2_19", word:"empirique", match:"empirique", pos:"adj.", zh:"實證的", example_fr:"Son étude repose sur des données empiriques.", example_zh:"他的研究立足於實證資料。"},
+  {id:"cc2_20", word:"problématiser", match:"problematiser", pos:"v.", zh:"提出問題意識", example_fr:"Il faut problématiser le sujet avant de l'analyser.", example_zh:"分析前要先把主題問題化。"},
+  {id:"cc2_21", word:"étayer", match:"etayer", pos:"v.", zh:"佐證、支撐", example_fr:"Chaque affirmation doit être étayée par des preuves.", example_zh:"每個論斷都要有證據佐證。"},
+  {id:"cc2_22", word:"nuancer", match:"nuancer", pos:"v.", zh:"使更細緻、有分寸", example_fr:"Il convient de nuancer cette conclusion.", example_zh:"這個結論宜更有分寸。"},
+];

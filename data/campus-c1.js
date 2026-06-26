@@ -1,0 +1,26 @@
+/* 主題資料：campus_c1 校園用語（C1）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.campus_c1 = [
+  {id:"cc1_01", word:"cours magistral", match:"coursmagistral", pos:"n.m.", zh:"大堂講課", example_fr:"Le cours magistral réunit deux cents étudiants.", example_zh:"這堂大堂課有兩百名學生。", art:"le"},
+  {id:"cc1_02", word:"travaux dirigés", match:"travauxdiriges", pos:"n.m.pl", zh:"分組討論課（TD）", example_fr:"Les travaux dirigés permettent de pratiquer.", example_zh:"分組課讓我們能實際操作。", art:"les"},
+  {id:"cc1_03", word:"amphithéâtre", match:"amphitheatre", pos:"n.m.", zh:"階梯教室", example_fr:"L'amphithéâtre était plein à craquer.", example_zh:"階梯教室擠得水洩不通。", art:"l'"},
+  {id:"cc1_04", word:"semestre", match:"semestre", pos:"n.m.", zh:"學期", example_fr:"Le semestre se termine par des examens.", example_zh:"這學期以考試作結。", art:"le"},
+  {id:"cc1_05", word:"crédit", match:"creditcampus", pos:"n.m.", zh:"學分", example_fr:"Ce cours vaut six crédits.", example_zh:"這門課有六學分。", art:"le"},
+  {id:"cc1_06", word:"partiel", match:"partiel", pos:"n.m.", zh:"期中／期末考", example_fr:"Je révise pour mes partiels.", example_zh:"我在準備期中考。", art:"le"},
+  {id:"cc1_07", word:"exposé", match:"expose", pos:"n.m.", zh:"口頭報告", example_fr:"Je présente mon exposé la semaine prochaine.", example_zh:"我下週要做口頭報告。", art:"l'"},
+  {id:"cc1_08", word:"dissertation", match:"dissertation", pos:"n.f.", zh:"申論、論說文", example_fr:"La dissertation exige un plan rigoureux.", example_zh:"申論文需要嚴謹的架構。", art:"la"},
+  {id:"cc1_09", word:"bibliographie", match:"bibliographie", pos:"n.f.", zh:"參考書目", example_fr:"N'oublie pas d'ajouter la bibliographie.", example_zh:"別忘了附上參考書目。", art:"la"},
+  {id:"cc1_10", word:"tutorat", match:"tutorat", pos:"n.m.", zh:"課業輔導、助教制", example_fr:"Le tutorat aide les étudiants en difficulté.", example_zh:"課業輔導幫助學習有困難的學生。", art:"le"},
+  {id:"cc1_11", word:"inscription", match:"inscription", pos:"n.f.", zh:"註冊、報名", example_fr:"Les inscriptions ouvrent en septembre.", example_zh:"註冊九月開放。", art:"l'"},
+  {id:"cc1_12", word:"bourse", match:"boursecampus", pos:"n.f.", zh:"獎助學金", example_fr:"Elle a obtenu une bourse d'études.", example_zh:"她拿到了獎學金。", art:"la"},
+  {id:"cc1_13", word:"cursus", match:"cursus", pos:"n.m.", zh:"學程、修課歷程", example_fr:"Mon cursus comprend un stage obligatoire.", example_zh:"我的學程包含一個必修實習。", art:"le"},
+  {id:"cc1_14", word:"relevé de notes", match:"relevedenotes", pos:"n.m.", zh:"成績單", example_fr:"Je dois fournir mon relevé de notes.", example_zh:"我必須提供成績單。", art:"le"},
+  {id:"cc1_15", word:"emploi du temps", match:"emploidutemps", pos:"n.m.", zh:"課表", example_fr:"Mon emploi du temps est très chargé.", example_zh:"我的課表排得很滿。", art:"l'"},
+  {id:"cc1_16", word:"assiduité", match:"assiduite", pos:"n.f.", zh:"出席、勤勉", example_fr:"L'assiduité est prise en compte dans la note.", example_zh:"出席率會計入成績。", art:"l'"},
+  {id:"cc1_17", word:"encadrant", match:"encadrant", pos:"n.m.", zh:"指導老師", example_fr:"Mon encadrant me conseille pour mon projet.", example_zh:"我的指導老師給我專案建議。", art:"l'"},
+  {id:"cc1_18", word:"licence", match:"licencecampus", pos:"n.f.", zh:"學士學位", example_fr:"J'achève ma licence cette année.", example_zh:"我今年完成學士學位。", art:"la"},
+  {id:"cc1_19", word:"facultatif", match:"facultatif", pos:"adj.", zh:"選修的", example_fr:"Ce module est facultatif.", example_zh:"這個模組是選修的。"},
+  {id:"cc1_20", word:"réviser", match:"reviser", pos:"v.", zh:"複習", example_fr:"Je révise mes cours à la bibliothèque.", example_zh:"我在圖書館複習功課。"},
+  {id:"cc1_21", word:"assister", match:"assister", pos:"v.", zh:"出席（à）", example_fr:"J'assiste à tous les cours du matin.", example_zh:"我出席所有早上的課。"},
+  {id:"cc1_22", word:"rendre", match:"rendrecampus", pos:"v.", zh:"繳交", example_fr:"Je dois rendre mon devoir avant vendredi.", example_zh:"我必須在週五前繳交作業。"},
+];
