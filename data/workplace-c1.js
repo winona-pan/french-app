@@ -1,0 +1,26 @@
+/* 主題資料：workplace_c1 職場用語（C1）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.workplace_c1 = [
+  {id:"wc1_01", word:"réunion", match:"reunion", pos:"n.f.", zh:"會議", example_fr:"La réunion est prévue à dix heures.", example_zh:"會議訂在十點。", art:"la"},
+  {id:"wc1_02", word:"ordre du jour", match:"ordredujour", pos:"n.m.", zh:"議程", example_fr:"L'ordre du jour comporte trois points.", example_zh:"議程有三個項目。", art:"l'"},
+  {id:"wc1_03", word:"compte rendu", match:"compterendu", pos:"n.m.", zh:"會議紀錄", example_fr:"Je rédige le compte rendu de la réunion.", example_zh:"我負責撰寫會議紀錄。", art:"le"},
+  {id:"wc1_04", word:"échéancier", match:"echeancier", pos:"n.m.", zh:"時程表", example_fr:"Respectons l'échéancier du projet.", example_zh:"我們要遵守專案的時程表。", art:"l'"},
+  {id:"wc1_05", word:"délai", match:"delai", pos:"n.m.", zh:"期限", example_fr:"Le délai de livraison est très serré.", example_zh:"交付期限很緊迫。", art:"le"},
+  {id:"wc1_06", word:"objectif", match:"objectifwc", pos:"n.m.", zh:"目標", example_fr:"Nous avons atteint nos objectifs trimestriels.", example_zh:"我們達成了季度目標。", art:"l'"},
+  {id:"wc1_07", word:"tâche", match:"tache", pos:"n.f.", zh:"任務", example_fr:"Je délègue cette tâche à un collègue.", example_zh:"我把這項任務交給同事。", art:"la"},
+  {id:"wc1_08", word:"collègue", match:"collegue", pos:"n.m./f.", zh:"同事", example_fr:"Mes collègues sont très compétents.", example_zh:"我的同事都很能幹。", art:"le"},
+  {id:"wc1_09", word:"hiérarchie", match:"hierarchie", pos:"n.f.", zh:"組織層級", example_fr:"Il faut respecter la hiérarchie de l'entreprise.", example_zh:"必須尊重公司的組織層級。", art:"la"},
+  {id:"wc1_10", word:"polyvalence", match:"polyvalence", pos:"n.f.", zh:"多工能力", example_fr:"La polyvalence est très appréciée dans cette équipe.", example_zh:"在這個團隊裡，多工能力很受重視。", art:"la"},
+  {id:"wc1_11", word:"entretien", match:"entretienwc", pos:"n.m.", zh:"面談、面試", example_fr:"J'ai un entretien d'embauche demain.", example_zh:"我明天有面試。", art:"l'"},
+  {id:"wc1_12", word:"candidature", match:"candidature", pos:"n.f.", zh:"應徵、求職", example_fr:"J'ai déposé ma candidature à ce poste.", example_zh:"我已遞交這個職位的應徵。", art:"la"},
+  {id:"wc1_13", word:"compétence", match:"competence", pos:"n.f.", zh:"能力、職能", example_fr:"Cette mission requiert des compétences précises.", example_zh:"這項任務需要特定的能力。", art:"la"},
+  {id:"wc1_14", word:"promotion", match:"promotionwc", pos:"n.f.", zh:"升遷", example_fr:"Il a obtenu une promotion après deux ans.", example_zh:"他兩年後獲得升遷。", art:"la"},
+  {id:"wc1_15", word:"télétravail", match:"teletravail", pos:"n.m.", zh:"遠距工作", example_fr:"Le télétravail se généralise dans les entreprises.", example_zh:"遠距工作在企業中日益普及。", art:"le"},
+  {id:"wc1_16", word:"productivité", match:"productivite", pos:"n.f.", zh:"生產力", example_fr:"La productivité de l'équipe a augmenté.", example_zh:"團隊的生產力提高了。", art:"la"},
+  {id:"wc1_17", word:"retour", match:"retourwc", pos:"n.m.", zh:"回饋（feedback）", example_fr:"Je demande un retour à mon manager.", example_zh:"我向主管請求回饋。", art:"le"},
+  {id:"wc1_18", word:"réseau professionnel", match:"reseauprofessionnel", pos:"n.m.", zh:"人脈、職場網絡", example_fr:"Il faut entretenir son réseau professionnel.", example_zh:"要好好經營自己的人脈。", art:"le"},
+  {id:"wc1_19", word:"polyvalent", match:"polyvalent", pos:"adj.", zh:"多才多藝的", example_fr:"Un profil polyvalent est très recherché.", example_zh:"多才多藝的人選非常搶手。"},
+  {id:"wc1_20", word:"encadrer", match:"encadrer", pos:"v.", zh:"帶領、督導", example_fr:"Elle encadre une équipe de cinq personnes.", example_zh:"她帶領一個五人團隊。"},
+  {id:"wc1_21", word:"déléguer", match:"deleguer", pos:"v.", zh:"授權、委派", example_fr:"Un bon manager sait déléguer.", example_zh:"好的主管懂得授權。"},
+  {id:"wc1_22", word:"postuler", match:"postuler", pos:"v.", zh:"應徵", example_fr:"Je vais postuler à ce poste dès demain.", example_zh:"我明天就要應徵這個職位。"},
+];
