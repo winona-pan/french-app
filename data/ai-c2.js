@@ -1,0 +1,26 @@
+/* 主題資料：ai_c2 人工智慧（C2）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.ai_c2 = [
+  {id:"ac2_01", word:"apprentissage supervisé", match:"apprentissagesupervise", pos:"n.m.", zh:"監督式學習", example_fr:"L'apprentissage supervisé exige des données étiquetées.", example_zh:"監督式學習需要已標註的資料。", art:"l'"},
+  {id:"ac2_02", word:"surapprentissage", match:"surapprentissage", pos:"n.m.", zh:"過度擬合", example_fr:"Le surapprentissage nuit à la généralisation du modèle.", example_zh:"過度擬合會損害模型的泛化能力。", art:"le"},
+  {id:"ac2_03", word:"paramètre", match:"parametre", pos:"n.m.", zh:"參數", example_fr:"Ce modèle compte des milliards de paramètres.", example_zh:"這個模型有數十億個參數。", art:"le"},
+  {id:"ac2_04", word:"inférence", match:"inference", pos:"n.f.", zh:"推論", example_fr:"L'inférence est la phase où le modèle produit ses réponses.", example_zh:"推論是模型產出回答的階段。", art:"l'"},
+  {id:"ac2_05", word:"hallucination", match:"hallucination", pos:"n.f.", zh:"幻覺（生成錯誤）", example_fr:"Une hallucination se produit quand l'IA invente des faits.", example_zh:"當 AI 捏造事實時就是幻覺。", art:"l'"},
+  {id:"ac2_06", word:"alignement", match:"alignement", pos:"n.m.", zh:"對齊（與人類價值）", example_fr:"L'alignement vise à rendre l'IA conforme à nos valeurs.", example_zh:"對齊旨在讓 AI 符合我們的價值。", art:"l'"},
+  {id:"ac2_07", word:"explicabilité", match:"explicabilite", pos:"n.f.", zh:"可解釋性", example_fr:"L'explicabilité des modèles reste un défi majeur.", example_zh:"模型的可解釋性仍是一大挑戰。", art:"l'"},
+  {id:"ac2_08", word:"opacité", match:"opacite", pos:"n.f.", zh:"不透明性、黑箱", example_fr:"L'opacité des algorithmes inquiète les chercheurs.", example_zh:"演算法的黑箱讓研究者擔憂。", art:"l'"},
+  {id:"ac2_09", word:"responsabilité algorithmique", match:"responsabilitealgorithmique", pos:"n.f.", zh:"演算法問責", example_fr:"La responsabilité algorithmique devient un enjeu juridique.", example_zh:"演算法問責正成為法律議題。", art:"la"},
+  {id:"ac2_10", word:"discrimination", match:"discriminationai", pos:"n.f.", zh:"歧視", example_fr:"Un algorithme biaisé peut entraîner des discriminations.", example_zh:"有偏誤的演算法可能造成歧視。", art:"la"},
+  {id:"ac2_11", word:"surveillance", match:"surveillanceai", pos:"n.f.", zh:"監控", example_fr:"La reconnaissance faciale facilite la surveillance de masse.", example_zh:"臉部辨識讓大規模監控更容易。", art:"la"},
+  {id:"ac2_12", word:"désinformation", match:"desinformation", pos:"n.f.", zh:"假訊息", example_fr:"L'IA peut amplifier la désinformation en ligne.", example_zh:"AI 可能放大網路上的假訊息。", art:"la"},
+  {id:"ac2_13", word:"hypertrucage", match:"hypertrucage", pos:"n.m.", zh:"深偽（deepfake）", example_fr:"L'hypertrucage rend les fausses vidéos très crédibles.", example_zh:"深偽讓假影片看起來非常逼真。", art:"l'"},
+  {id:"ac2_14", word:"singularité", match:"singularite", pos:"n.f.", zh:"技術奇點", example_fr:"La singularité technologique fait débat chez les experts.", example_zh:"技術奇點在專家間引發辯論。", art:"la"},
+  {id:"ac2_15", word:"émergence", match:"emergence", pos:"n.f.", zh:"湧現（能力）", example_fr:"On observe l'émergence de capacités inattendues.", example_zh:"人們觀察到意料之外能力的湧現。", art:"l'"},
+  {id:"ac2_16", word:"dépendance technologique", match:"dependancetechnologique", pos:"n.f.", zh:"科技依賴", example_fr:"La dépendance technologique soulève des questions de souveraineté.", example_zh:"科技依賴引發主權的問題。", art:"la"},
+  {id:"ac2_17", word:"éthique", match:"ethiqueai", pos:"n.f.", zh:"倫理", example_fr:"L'éthique doit guider le développement de l'IA.", example_zh:"倫理應引導 AI 的發展。", art:"l'"},
+  {id:"ac2_18", word:"anthropomorphisme", match:"anthropomorphisme", pos:"n.m.", zh:"擬人化", example_fr:"L'anthropomorphisme nous fait prêter des émotions à la machine.", example_zh:"擬人化讓我們把情感投射到機器上。", art:"l'"},
+  {id:"ac2_19", word:"prédictif", match:"predictif", pos:"adj.", zh:"預測性的", example_fr:"Les modèles prédictifs anticipent les comportements.", example_zh:"預測模型能預判行為。"},
+  {id:"ac2_20", word:"générative", match:"generative", pos:"adj.", zh:"生成式的（陰性）", example_fr:"L'IA générative transforme la création de contenu.", example_zh:"生成式 AI 正改變內容創作。"},
+  {id:"ac2_21", word:"superviser", match:"superviser", pos:"v.", zh:"監督", example_fr:"Un humain doit superviser les décisions critiques.", example_zh:"關鍵決策必須有人類監督。"},
+  {id:"ac2_22", word:"réguler", match:"reguler", pos:"v.", zh:"監管", example_fr:"Les États cherchent à réguler l'intelligence artificielle.", example_zh:"各國正設法監管人工智慧。"},
+];

@@ -1,0 +1,28 @@
+/* 主題資料：boissons_plus 各種飲料（A1）*/
+window.VOCAB = window.VOCAB || {};
+window.VOCAB.boissons_plus = [
+  {id:"bo_01", word:"eau", match:"eau", pos:"n.f.", zh:"水", example_fr:"Je bois beaucoup d'eau.", example_zh:"我喝很多水。", art:"l'"},
+  {id:"bo_02", word:"eau gazeuse", match:"eaugazeuse", pos:"n.f.", zh:"氣泡水", example_fr:"Tu préfères l'eau plate ou l'eau gazeuse ?", example_zh:"你偏好無氣泡水還是氣泡水？", art:"l'"},
+  {id:"bo_03", word:"café", match:"cafe", pos:"n.m.", zh:"咖啡", example_fr:"Je prends un café le matin.", example_zh:"我早上喝一杯咖啡。", art:"le"},
+  {id:"bo_04", word:"café au lait", match:"cafeaulait", pos:"n.m.", zh:"拿鐵、咖啡牛奶", example_fr:"Elle commande un café au lait.", example_zh:"她點一杯咖啡牛奶。", art:"le"},
+  {id:"bo_05", word:"expresso", match:"expresso", pos:"n.m.", zh:"濃縮咖啡", example_fr:"Un expresso, s'il vous plaît.", example_zh:"請給我一杯濃縮咖啡。", art:"l'"},
+  {id:"bo_06", word:"thé", match:"the", pos:"n.m.", zh:"茶", example_fr:"Je bois du thé vert.", example_zh:"我喝綠茶。", art:"le"},
+  {id:"bo_07", word:"thé glacé", match:"theglace", pos:"n.m.", zh:"冰茶", example_fr:"En été, je préfère le thé glacé.", example_zh:"夏天我比較喜歡冰茶。", art:"le"},
+  {id:"bo_08", word:"tisane", match:"tisane", pos:"n.f.", zh:"花草茶", example_fr:"Je bois une tisane avant de dormir.", example_zh:"我睡前喝花草茶。", art:"la"},
+  {id:"bo_09", word:"jus d'orange", match:"jusdorange", pos:"n.m.", zh:"柳橙汁", example_fr:"Un jus d'orange frais, c'est bon.", example_zh:"新鮮柳橙汁很好喝。", art:"le"},
+  {id:"bo_10", word:"jus de pomme", match:"jusdepomme", pos:"n.m.", zh:"蘋果汁", example_fr:"Les enfants aiment le jus de pomme.", example_zh:"小孩喜歡蘋果汁。", art:"le"},
+  {id:"bo_11", word:"chocolat chaud", match:"chocolatchaud", pos:"n.m.", zh:"熱巧克力", example_fr:"En hiver, je bois un chocolat chaud.", example_zh:"冬天我喝熱巧克力。", art:"le"},
+  {id:"bo_12", word:"lait", match:"laitbo", pos:"n.m.", zh:"牛奶", example_fr:"Un verre de lait avant de dormir.", example_zh:"睡前一杯牛奶。", art:"le"},
+  {id:"bo_13", word:"soda", match:"soda", pos:"n.m.", zh:"汽水", example_fr:"Je bois rarement du soda.", example_zh:"我很少喝汽水。", art:"le"},
+  {id:"bo_14", word:"limonade", match:"limonade", pos:"n.f.", zh:"檸檬汽水", example_fr:"La limonade est rafraîchissante.", example_zh:"檸檬汽水很消暑。", art:"la"},
+  {id:"bo_15", word:"smoothie", match:"smoothie", pos:"n.m.", zh:"思慕昔、果昔", example_fr:"Je fais un smoothie aux fruits.", example_zh:"我打一杯水果果昔。", art:"le"},
+  {id:"bo_16", word:"sirop", match:"sirop", pos:"n.m.", zh:"糖漿（飲料）", example_fr:"Un sirop de menthe à l'eau.", example_zh:"薄荷糖漿加水。", art:"le"},
+  {id:"bo_17", word:"eau minérale", match:"eauminerale", pos:"n.f.", zh:"礦泉水", example_fr:"Une bouteille d'eau minérale.", example_zh:"一瓶礦泉水。", art:"l'"},
+  {id:"bo_18", word:"café crème", match:"cafecreme", pos:"n.m.", zh:"奶泡咖啡", example_fr:"Au café, elle prend un café crème.", example_zh:"在咖啡館她點一杯奶泡咖啡。", art:"le"},
+  {id:"bo_19", word:"infusion", match:"infusion", pos:"n.f.", zh:"草本沖泡飲", example_fr:"Une infusion de camomille.", example_zh:"一杯洋甘菊沖泡飲。", art:"l'"},
+  {id:"bo_20", word:"jus de fruits", match:"jusdefruits", pos:"n.m.", zh:"果汁", example_fr:"Je préfère le jus de fruits au soda.", example_zh:"比起汽水我更喜歡果汁。", art:"le"},
+  {id:"bo_21", word:"boisson", match:"boisson", pos:"n.f.", zh:"飲料（總稱）", example_fr:"Qu'est-ce que tu veux comme boisson ?", example_zh:"你想喝什麼飲料？", art:"la"},
+  {id:"bo_22", word:"vin", match:"vin", pos:"n.m.", zh:"葡萄酒", example_fr:"La France produit beaucoup de vin.", example_zh:"法國生產很多葡萄酒。", art:"le"},
+  {id:"bo_23", word:"bière", match:"biere", pos:"n.f.", zh:"啤酒", example_fr:"Ils boivent une bière en terrasse.", example_zh:"他們在露天座喝啤酒。", art:"la"},
+  {id:"bo_24", word:"champagne", match:"champagne", pos:"n.m.", zh:"香檳", example_fr:"On ouvre le champagne pour fêter ça.", example_zh:"我們開香檳慶祝。", art:"le"},
+];
