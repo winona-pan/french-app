@@ -154,6 +154,8 @@ let state = {
   flashIndex:0,
   skipLearned:true,     // 字卡是否跳過已學會的字（仍可切換成複習全部）
   searchQuery:"",       // 首頁搜尋字串
+  lexQuery:"",          // 辭典分頁搜尋字串
+  lexFocusId:null,      // 辭典搜尋點入後要定位高亮的詞 id
   gQuery:"",            // 總覽整合搜尋字串
 };
 
@@ -698,10 +700,19 @@ function renderLexHome(){
       <div class="sub">依主題分類的生活詞彙・與單字共用搜尋</div>
     </header>
     ${tabBarHtml('lex')}
-    <div class="w-intro zh">像辭典一樣依主題收錄生活用語：選大分類 → 子分類 → 小類別。內容陸續擴充中，標「即將補上」的之後會補。所有已收錄的詞，總覽分頁的搜尋也找得到。</div>
-    <div class="lex-sec-grid"></div>
+    <div class="search-wrap">
+      <input id="lexSearch" type="search" autocomplete="off" placeholder="搜尋辭典（中文・英文・法文都可）" value="${(state.lexQuery||'').replace(/"/g,'&quot;')}">
+      <span class="search-icon">🔍</span>
+    </div>
+    <div id="lexSearchResults"></div>
+    <div id="lexBrowse">
+      <div class="w-intro zh">像辭典一樣依主題收錄生活用語：選大分類 → 子分類 → 小類別。內容陸續擴充中，標「即將補上」的之後會補。所有已收錄的詞，總覽分頁的搜尋也找得到。</div>
+      <div class="lex-sec-grid"></div>
+    </div>
   `;
   wireTabBar();
+  const lexInput=app.querySelector("#lexSearch");
+  if(lexInput) lexInput.oninput=(ev)=>{ state.lexQuery=ev.target.value; renderLexSearchResults(); };
   const grid=app.querySelector(".lex-sec-grid");
   L.forEach((sec,i)=>{
     let total=0, done=0;
@@ -712,6 +723,56 @@ function renderLexHome(){
     </div>`);
     card.onclick=()=>{ state.lexSec=i; renderLexSec(); };
     grid.appendChild(card);
+  });
+  renderLexSearchResults(); // 還原先前的辭典搜尋狀態（若有）
+}
+
+/* 辭典搜尋：中文比對原意、英文/法文去重音比對拼寫 */
+function searchLexEntries(q){
+  const nq=norm(q), rawq=(q||"").trim();
+  if(!nq && !rawq) return [];
+  const res=[];
+  for(const t of THEMES){
+    if(t.level!=="lex") continue;
+    for(const e of t.data){
+      const hit=(nq && (norm(e.word).includes(nq) || norm(e.match||'').includes(nq)))
+             || (rawq && e.zh && e.zh.includes(rawq));
+      if(hit){ res.push({e, theme:t}); if(res.length>=80) return res; }
+    }
+  }
+  return res;
+}
+
+function renderLexSearchResults(){
+  const box=document.getElementById("lexSearchResults");
+  const browse=document.getElementById("lexBrowse");
+  if(!box) return;
+  const q=state.lexQuery||"";
+  if(!q.trim()){ box.innerHTML=""; if(browse) browse.style.display=""; return; }
+  if(browse) browse.style.display="none";
+  const results=searchLexEntries(q);
+  box.innerHTML="";
+  if(results.length===0){
+    box.appendChild(el(`<div class="search-empty zh">找不到符合「${q.replace(/</g,'&lt;')}」的辭典詞彙</div>`));
+    return;
+  }
+  box.appendChild(el(`<div class="search-count zh">${results.length} 個結果${results.length>=80?'（僅顯示前 80 筆）':''}</div>`));
+  results.forEach(({e,theme})=>{
+    const row=el(`
+      <div class="search-row">
+        <div class="sr-line">
+          <span class="sr-fr fr-display">${withArt(e)}</span>
+          ${speakBtnHtml('sr-speak')}
+          <span class="sr-pos">${e.pos||''}</span>
+        </div>
+        <div class="sr-zh zh">${e.zh}</div>
+        <div class="sr-theme zh">辭典・${theme.name}</div>
+      </div>
+    `);
+    row.onclick=()=>{ state.currentLexCat=theme.id; state.lexFocusId=e.id; renderLexCat(); };
+    const sb=row.querySelector(".speak-btn.sr-speak");
+    if(sb) sb.onclick=(ev)=>{ ev.stopPropagation(); speak(withArt(e), true, sb); };
+    box.appendChild(row);
   });
 }
 
@@ -746,16 +807,36 @@ function findLexCatName(id){
 }
 
 function renderLexCat(){
-  window.scrollTo(0,0);
   const id=state.currentLexCat;
   const data=lexCatData(id);
   if(!data){ renderLexSec(); return; }
+  const focusId=state.lexFocusId; state.lexFocusId=null; // 取出後即清除，避免下次殘留
+  if(!focusId) window.scrollTo(0,0);
   const name=findLexCatName(id);
   const rows=data.map(e=>{
     const w=withArt(e);
-    return `<div class="lex-word" data-fr="${w.replace(/"/g,'&quot;')}">
+    let extra="";
+    const mo = (window.Morpho ? Morpho.getMorpho(e) : {});
+    if(mo.conj && mo.conj.length){
+      const chips = mo.conj.map(c=>{
+        const sp=c.replace(/"/g,'&quot;');
+        const parts=c.match(/^(j'|je |tu |il |nous |vous |ils |me |te |se )(.*)$/);
+        const pron = parts? parts[1].trim() : "";
+        const rest = parts? parts[2] : c;
+        return `<span class="lex-conj-item" data-fr="${sp}"><span class="lex-conj-pron">${pron}</span> ${rest}</span>`;
+      }).join("");
+      extra += `<div class="lex-conj">${chips}</div>`;
+    }
+    const parts=[];
+    if(mo.fem) parts.push(`<span class="lex-form-item" data-fr="${mo.fem.replace(/"/g,'&quot;')}"><span class="lex-form-tag">陰</span> ${mo.fem}</span>`);
+    if(mo.mpl) parts.push(`<span class="lex-form-item" data-fr="${mo.mpl.replace(/"/g,'&quot;')}"><span class="lex-form-tag">陽複</span> ${mo.mpl}</span>`);
+    if(mo.fpl) parts.push(`<span class="lex-form-item" data-fr="${mo.fpl.replace(/"/g,'&quot;')}"><span class="lex-form-tag">陰複</span> ${mo.fpl}</span>`);
+    if(mo.plural) parts.push(`<span class="lex-form-item" data-fr="${mo.plural.replace(/"/g,'&quot;')}"><span class="lex-form-tag">複</span> ${mo.plural}</span>`);
+    if(parts.length) extra += `<div class="lex-forms">${parts.join("")}</div>`;
+    return `<div class="lex-word" id="lexrow-${e.id}" data-fr="${w.replace(/"/g,'&quot;')}">
       <div class="lex-word-main"><span class="lex-word-fr fr-display">${w}</span>${speakBtnHtml('lex-speak')}</div>
       <div class="lex-word-info"><span class="lex-pos">${e.pos||''}</span><span class="lex-zh zh">${e.zh}</span></div>
+      ${extra}
     </div>`;
   }).join("");
   app.innerHTML = `
@@ -776,6 +857,19 @@ function renderLexCat(){
   document.getElementById("lexQuizMC").onclick=()=>startQuiz("mc", data);
   document.getElementById("lexQuizSpell").onclick=()=>startQuiz("spell", data);
   wireSpeakIn(app,"lex-speak");
+  app.querySelectorAll(".lex-conj-item,.lex-form-item").forEach(ch=>{
+    ch.onclick=(ev)=>{ ev.stopPropagation(); speak(ch.getAttribute("data-fr"), false, ch); };
+  });
+  if(focusId){
+    const target=document.getElementById("lexrow-"+focusId);
+    if(target){
+      target.classList.add("lex-focus");
+      target.scrollIntoView({behavior:"smooth", block:"center"});
+      setTimeout(()=>target.classList.remove("lex-focus"), 2400);
+    } else {
+      window.scrollTo(0,0);
+    }
+  }
 }
 
 function renderCultureHome(){
@@ -950,7 +1044,7 @@ function renderOverview(){
     </header>
     ${tabBarHtml('overview')}
     <div class="search-wrap">
-      <input id="gSearch" type="search" autocomplete="off" placeholder="搜尋全部：單字・文法・對話・範文・口說（中／法）" value="${(state.gQuery||'').replace(/"/g,'&quot;')}">
+      <input id="gSearch" type="search" autocomplete="off" placeholder="搜尋全部：單字・文法・對話・範文・口說（中／英／法）" value="${(state.gQuery||'').replace(/"/g,'&quot;')}">
       <span class="search-icon">🔍</span>
     </div>
     <div id="gResults"></div>
@@ -1030,7 +1124,7 @@ function renderGlobalResults(){
   gCatSection(box,"單字","ov-c-vocab", r.vocab, (it)=>{
     const row=el(`<div class="gr-row"><div class="gr-line"><span class="gr-fr fr-display">${withArt(it.e)}</span>${speakBtnHtml('gr-speak')}<span class="gr-zh zh">${it.e.zh}</span>${known.has(it.e.id)?'<span class="gr-known">✓</span>':''}</div><div class="gr-meta zh">${it.theme.level==="lex"?"辭典":it.theme.level}・${it.theme.name}</div></div>`);
     const sb=row.querySelector(".speak-btn.gr-speak"); if(sb) sb.onclick=(ev)=>{ev.stopPropagation(); speak(withArt(it.e),true,sb);};
-    row.onclick=()=>{ state.tab="vocab"; state.currentThemeId=it.theme.id; state.flashIndex=0; state.skipLearned=false; renderTheme(); };
+    row.onclick=()=>openThemeAtEntry(it.theme.id, it.e.id);
     return row;
   });
   gCatSection(box,"文法","ov-c-gram", r.grammar, (g)=>{
@@ -1120,7 +1214,7 @@ function renderHome(){
       <button id="modeLevelBtn" class="${state.navMode==='level'?'active':''}">依等級瀏覽</button>
     </nav>
     <div class="search-wrap">
-      <input id="searchInput" type="search" autocomplete="off" placeholder="搜尋單字（中文或法文）" value="${(state.searchQuery||'').replace(/"/g,'&quot;')}">
+      <input id="searchInput" type="search" autocomplete="off" placeholder="搜尋單字（中文・英文・法文都可）" value="${(state.searchQuery||'').replace(/"/g,'&quot;')}">
       <span class="search-icon">🔍</span>
     </div>
     <div id="searchResults"></div>
@@ -1232,7 +1326,7 @@ function renderSearchResults(){
         <div class="sr-theme zh">${theme.level}・${theme.name}</div>
       </div>
     `);
-    row.onclick=()=>{ state.currentThemeId=theme.id; state.flashIndex=0; state.skipLearned=false; renderTheme(); };
+    row.onclick=()=>openThemeAtEntry(theme.id, e.id);
     const sb = row.querySelector(".speak-btn.sr-speak");
     if(sb) sb.onclick=(ev)=>{ ev.stopPropagation(); speak(withArt(e), true, sb); };
     box.appendChild(row);
@@ -1240,6 +1334,19 @@ function renderSearchResults(){
 }
 
 function getCurrentTheme(){ return THEMES.find(t=>t.id===state.currentThemeId); }
+
+/* 從搜尋結果直接開啟某主題並定位到該單字的字卡 */
+function openThemeAtEntry(themeId, entryId){
+  const t = THEMES.find(x=>x.id===themeId);
+  state.tab = "vocab";
+  state.currentThemeId = themeId;
+  state.skipLearned = false;     // 複習全部模式下 deck=整個主題，索引才對得上
+  state.vocabView = "cards";
+  let idx = 0;
+  if(t){ const j = t.data.findIndex(x=>x.id===entryId); if(j>=0) idx=j; }
+  state.flashIndex = idx;
+  renderTheme();
+}
 
 function renderTheme(){
   const theme = getCurrentTheme();
@@ -1369,14 +1476,21 @@ function renderFlashcards(pool){
   const wrap = el(`<div class="flashcard-wrap"></div>`);
   wrap.appendChild(el(modeToggle));
   let extraHtml = "";
-  if(e.fem || e.conj){
+  const mo = (window.Morpho ? Morpho.getMorpho(e) : {});
+  if(mo.fem || mo.conj || mo.plural || mo.mpl || mo.fpl){
     extraHtml += `<div class="extra zh" style="display:none">`;
-    if(e.fem){
-      extraHtml += `<div class="fem-line">陰性形：<span class="fr-display">${e.fem}</span></div>`;
+    if(mo.fem){
+      extraHtml += `<div class="fem-line">陰性形：<span class="fr-display">${mo.fem}</span>${mo.fpl?` ・陰複 <span class="fr-display">${mo.fpl}</span>`:''}</div>`;
     }
-    if(e.conj){
+    if(mo.mpl){
+      extraHtml += `<div class="fem-line">陽性複數：<span class="fr-display">${mo.mpl}</span></div>`;
+    }
+    if(mo.plural){
+      extraHtml += `<div class="fem-line">複數：<span class="fr-display">${mo.plural}</span>${/[sxz]$/.test(e.word||'')?'（單複數同形）':''}</div>`;
+    }
+    if(mo.conj && mo.conj.length){
       extraHtml += `<div class="conj-title">現在式變化</div><div class="conj-grid">`;
-      extraHtml += e.conj.map(c=> `<div class="conj-cell ${c==='—'?'empty':''} fr-display">${c}</div>`).join("");
+      extraHtml += mo.conj.map(c=> `<div class="conj-cell ${c==='—'?'empty':''} fr-display">${c}</div>`).join("");
       extraHtml += `</div>`;
     }
     extraHtml += `</div>`;
@@ -1443,8 +1557,11 @@ function renderVocabList(pool){
   const area = document.getElementById("vocabArea");
   const listEl = el(`<div class="vocab-list"></div>`);
   pool.forEach(e=>{
-    const femHtml = e.fem ? ` <span class="fem-badge">陰: ${e.fem}</span>` : "";
-    const conjHtml = e.conj ? `<span class="conj-badge">變化</span>` : "";
+    const mo = (window.Morpho ? Morpho.getMorpho(e) : {});
+    let femHtml = mo.fem ? ` <span class="fem-badge">陰: ${mo.fem}</span>` : "";
+    if(mo.mpl) femHtml += ` <span class="fem-badge">陽複: ${mo.mpl}</span>`;
+    if(mo.plural) femHtml += ` <span class="fem-badge">複: ${mo.plural}</span>`;
+    const conjHtml = (mo.conj && mo.conj.length) ? `<span class="conj-badge">變化</span>` : "";
     const row = el(`
       <div class="vocab-row">
         <div class="known-box ${known.has(e.id)?'checked':''}">${known.has(e.id)?'✓':''}</div>
