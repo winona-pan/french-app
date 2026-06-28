@@ -624,10 +624,26 @@
   .lex-chip-soon-tag{font-size:10.5px; color:var(--ink-soft);}
   .lex-words{margin:14px 20px 0; display:grid; grid-template-columns:1fr 1fr; gap:8px;}
   .lex-word{background:var(--card); border-radius:10px; box-shadow:var(--shadow); padding:10px 11px;}
+  .lex-word.lex-focus{animation:lexFocusPulse 2.4s ease-out;}
+  @keyframes lexFocusPulse{
+    0%{box-shadow:0 0 0 3px var(--blue); background:var(--blue-soft, #e8f0fb);}
+    60%{box-shadow:0 0 0 3px var(--blue); background:var(--blue-soft, #e8f0fb);}
+    100%{box-shadow:var(--shadow); background:var(--card);}
+  }
   .lex-word-main{display:flex; align-items:center; gap:5px;}
   .lex-word-fr{font-size:14px; font-weight:600; color:var(--blue-deep); line-height:1.3;}
   .lex-word-main .speak-btn{font-size:13px; color:var(--blue); padding:0;}
   .lex-word-info{display:flex; align-items:baseline; gap:6px; margin-top:3px;}
   .lex-pos{font-size:10px; color:var(--margin); font-style:italic;}
   .lex-zh{font-size:12.5px; color:var(--ink-soft);}
+  .lex-conj{display:flex; flex-wrap:wrap; gap:4px 6px; margin-top:7px; padding-top:7px; border-top:1px dashed var(--line,#e3ddd0);}
+  .lex-conj-item{font-size:11.5px; color:var(--blue-deep); background:var(--blue-wash,#eef3f8); border-radius:6px; padding:2px 7px; cursor:pointer; transition:background .15s;}
+  .lex-conj-item:hover,.lex-conj-item:active{background:var(--blue,#7ba7cc); color:#fff;}
+  .lex-conj-pron{color:var(--margin); font-style:italic; margin-right:1px;}
+  .lex-conj-item:hover .lex-conj-pron,.lex-conj-item:active .lex-conj-pron{color:#eef3f8;}
+  .lex-forms{display:flex; flex-wrap:wrap; gap:4px 6px; margin-top:7px; padding-top:7px; border-top:1px dashed var(--line,#e3ddd0);}
+  .lex-form-item{font-size:11.5px; color:var(--blue-deep); background:var(--blue-wash,#eef3f8); border-radius:6px; padding:2px 7px; cursor:pointer;}
+  .lex-form-item:hover,.lex-form-item:active{background:var(--blue,#7ba7cc); color:#fff;}
+  .lex-form-tag{font-size:9.5px; color:#fff; background:var(--blue,#7ba7cc); border-radius:4px; padding:1px 4px; margin-right:3px;}
+  .lex-form-item:hover .lex-form-tag,.lex-form-item:active .lex-form-tag{background:#fff; color:var(--blue,#7ba7cc);}
   @media (max-width:380px){ .lex-words{grid-template-columns:1fr;} }
